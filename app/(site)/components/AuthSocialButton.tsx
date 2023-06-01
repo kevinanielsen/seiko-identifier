@@ -2,16 +2,18 @@ import clsx from "clsx";
 import { IconType } from "react-icons";
 
 
-interface ButtonProps {
+interface AuthSocialButtonProps {
   text?: string;
+  icon: IconType;
   secondary?: boolean;
   disabled?: boolean;
   type?: "button" | "reset" | "submit";
   onClick?: () => void;
 }
 
-const Button: React.FC<ButtonProps> = ({
+const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   text,
+  icon: Icon,
   secondary,
   disabled,
   type,
@@ -40,9 +42,10 @@ const Button: React.FC<ButtonProps> = ({
         disabled && "opacity-70"
       )}
     >
+      <Icon />
       {text}
     </button>
   );
 };
 
-export default Button;
+export default AuthSocialButton;
