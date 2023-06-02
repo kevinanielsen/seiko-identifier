@@ -7,12 +7,14 @@ import {
 
 interface InputProps {
   id: string;
+  type?: string;
   label?: string;
   placeholder?: string;
   register: UseFormRegister<FieldValues>;
   errors: FieldErrors;
   disabled?: boolean;
   required?: boolean;
+  pattern?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -20,9 +22,11 @@ const Input: React.FC<InputProps> = ({
   placeholder,
   disabled,
   id,
+  type,
   register,
   errors,
   required,
+  pattern,
 }) => {
   return (
     <div className="flex flex-col w-full">
@@ -31,9 +35,10 @@ const Input: React.FC<InputProps> = ({
         id={id}
         autoComplete={id}
         {...register(id, { required })}
-        type="text"
+        type={type}
         placeholder={placeholder}
         disabled={disabled}
+        pattern={pattern}
         className={clsx(`
         border-gray-200
         border-[1px]

@@ -100,37 +100,51 @@ const Form = () => {
       <p className="font-light text-gray-500 text-xs">or</p>
       {variant === "REGISTER" && (
         <Input
+          type="text"
           id="name"
           label="Name"
           placeholder="Enter your name"
           register={register}
           errors={errors}
           disabled={isLoading}
+          required={variant === "REGISTER"}
         />
       )}
       <Input
+        type="email"
+        pattern="[^ @]*@[^ @]*"
         id="email"
         label="Email"
         placeholder="Enter your email"
         register={register}
         errors={errors}
         disabled={isLoading}
+        required
       />
       <Input
+        type="password"
         id="password"
         label="Password"
         placeholder="Password"
         register={register}
         errors={errors}
         disabled={isLoading}
+        required
       />
       <Button disabled={isLoading} text={variant === "LOGIN" ? "Log in" : "Register"} secondary type="submit" />
-      <p className="text-gray-900">
+      {variant === "LOGIN" ? (<p className="text-gray-900">
         Don't have an account?{" "}
         <button type="button" className="text-sky-500" onClick={toggleVariant}>
           Sign up
         </button>
-      </p>
+      </p>) : (
+        <p className="text-gray-900">
+          Already have an account?{" "}
+          <button type="button" className="text-sky-500" onClick={toggleVariant}>
+            Sign in
+          </button>
+        </p>
+      )}
     </form>
   );
 };
