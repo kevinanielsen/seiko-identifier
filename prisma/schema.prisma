@@ -46,6 +46,5 @@ model Watch {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
   ref        String
   collection String
-  movement   String
-  dial       String
+  src        String
 }
