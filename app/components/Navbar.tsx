@@ -30,12 +30,13 @@ const Navbar: React.FC<NavbarProps> = ({
         <h1 className="font-bold text-lg">Seiko Identifier</h1>
       </Link>
 
-      <ul className="flex items-center justify-center">
+      <ul className="flex items-center justify-center gap-6 w-3/4 mx-4">
         <li><Link href="/identify" className={path === "/identify" ? "border-b-2 border-sky-500" : ""}>Identify watch</Link></li>
+        <li><Link href="/collection" className={path === "/collection" ? "border-b-2 border-sky-500" : ""}>Collection</Link></li>
       </ul>
       
       <div className="flex items-center justify-center gap-3">
-        <p>Welcome{currentUser && `, ${currentUser.name}`}</p>
+        <p className="hidden sm:block">Welcome{currentUser && `, ${currentUser.name}`}</p>
         {currentUser && <NavButton />}
         {!currentUser && <Link href="/">
           <FiLogIn size={24} />

@@ -1,13 +1,15 @@
 import clsx from "clsx";
 import { IconType } from "react-icons";
 
-
 interface ButtonProps {
   text?: string;
   secondary?: boolean;
   disabled?: boolean;
   type?: "button" | "reset" | "submit";
   onClick?: () => void;
+  fullWidth?: boolean;
+  style?: string;
+  icon?: IconType;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -15,7 +17,10 @@ const Button: React.FC<ButtonProps> = ({
   secondary,
   disabled,
   type,
-  onClick
+  onClick,
+  fullWidth,
+  style,
+  icon: Icon 
 }) => {
   return (
     <button
@@ -32,15 +37,17 @@ const Button: React.FC<ButtonProps> = ({
         p-2 
         rounded-md
         gap-2
-        w-full
       `,
         secondary
           ? "text-gray-100 bg-gray-900"
-          : "text-gray-600 border-gray-200 ",
-        disabled && "opacity-70"
+          : "text-gray-600 border-gray-200",
+        disabled && "opacity-70",
+        fullWidth && "w-full",
+        style && style
       )}
     >
       {text}
+      {Icon && <Icon size={24} />}
     </button>
   );
 };

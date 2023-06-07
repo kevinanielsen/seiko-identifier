@@ -44,7 +44,7 @@ model Account {
 
 model Watch {
   id         String @id @default(auto()) @map("_id") @db.ObjectId
-  ref        String
+  ref        String @unique
   collection String
-  src        String
+  src        String @unique
 }
