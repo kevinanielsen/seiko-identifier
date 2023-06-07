@@ -10,6 +10,7 @@ interface ButtonProps {
   fullWidth?: boolean;
   style?: string;
   icon?: IconType;
+  aria: string;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -20,13 +21,15 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   fullWidth,
   style,
-  icon: Icon 
+  icon: Icon,
+  aria
 }) => {
   return (
     <button
       type={type}
       disabled={disabled}
       onClick={onClick}
+      aria-label={text ? text : aria}
       className={clsx(
         `
         border-[1px] 

@@ -1,6 +1,6 @@
 "use client";
 
-import ml5 from "ml5";
+import * as ml5 from "ml5";
 import React, { useEffect, useRef, useState, useCallback } from "react";
 import WebCam from "react-webcam";
 import LoadingModal from "../../components/LoadingModal";
@@ -73,7 +73,6 @@ const Identifier = () => {
   };
 
   const capture = async () => {
-    setEnabled(false);
     const imageSrc = webcamRef.current.getScreenshot();
     let image = new Image();
     image.src = imageSrc;
@@ -108,6 +107,7 @@ const Identifier = () => {
           {!enabled && imgSrc?.src && <img src={imgSrc.src} alt="screenshot" />}
           {enabled && (
             <WebCam
+              aria-label="Camera feed"
               ref={webcamRef}
               videoConstraints={videoConstraints}
               screenshotFormat="image/jpeg"
@@ -119,7 +119,7 @@ const Identifier = () => {
             </div>
           )}
         </div>
-        <div className="flex justify-center items-center w-full md:w-7/12 gap-4">
+        <div className="flex justify-center items-center w-full md:w-7/12 max-w-2xl gap-4">
           <Button
             text="Capture image"
             fullWidth
@@ -135,7 +135,8 @@ const Identifier = () => {
               setEnabled(true);
               setWarning(false);
             }}
-          />
+            aria="Clear image"
+          ><p className="sr-only">Clear image</p></Button>
         </div>
 
         <b>
