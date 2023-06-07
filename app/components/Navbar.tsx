@@ -27,7 +27,6 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       shadow-md
       p-4
       text-lg
-      min-w-[455px]
     "
     >
       <Link
