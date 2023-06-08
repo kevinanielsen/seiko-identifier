@@ -10,7 +10,7 @@ const getWatch = async (ref: string) => {
 
     return watch;
   } catch (error: any) {
-    return error;
+    return null;
   }
 }
 

@@ -10,7 +10,8 @@ interface ButtonProps {
   fullWidth?: boolean;
   style?: string;
   icon?: IconType;
-  aria: string;
+  aria?: string;
+  hover?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -22,7 +23,8 @@ const Button: React.FC<ButtonProps> = ({
   fullWidth,
   style,
   icon: Icon,
-  aria
+  aria,
+  hover,
 }) => {
   return (
     <button
@@ -32,7 +34,7 @@ const Button: React.FC<ButtonProps> = ({
       aria-label={text ? text : aria}
       className={clsx(
         `
-        border-[1px] 
+        border
         flex 
         items-center 
         justify-center 
@@ -40,13 +42,16 @@ const Button: React.FC<ButtonProps> = ({
         p-2 
         rounded-md
         gap-2
+        shadow
       `,
         secondary
           ? "text-gray-100 bg-gray-900"
           : "text-gray-600 border-gray-200",
         disabled && "opacity-70",
         fullWidth && "w-full",
-        style && style
+        style && style,
+        hover &&
+          "transition hover:transition duration-300 hover:duration-300 hover:drop-shadow-md hover:shadow-sky-200"
       )}
     >
       {text}

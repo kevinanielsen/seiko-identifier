@@ -1,28 +1,36 @@
 "use client";
 
+// @ts-expect-error
 import * as ml5 from "ml5";
-import React, { useEffect, useRef, useState, useCallback } from "react";
-import WebCam from "react-webcam";
+import React, { useEffect, useRef, useState } from "react";
 import LoadingModal from "../../components/LoadingModal";
 import Button from "@/app/components/Button";
 import { BiTrash } from "react-icons/bi";
+import Webcam from "react-webcam";
+import Result from "./Result";
 
 // TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
-// Kevin / Not Kevin "https://teachablemachine.withgoogle.com/models/YKhc44aeF/"
 
 const modelURL = "https://teachablemachine.withgoogle.com/models/d1qL04bWG/";
-let classifier;
+let classifier: any;
 
-const Identifier = () => {
-  const webcamRef = useRef(null);
+interface IResult {
+  label: string;
+  confidence: number | null;
+}
+
+const Identifier: React.FC = () => {
+  const webcamRef = useRef<Webcam>(null);
 
   const [loading, setLoading] = useState(false);
+
   const [warning, setWarning] = useState(false);
-  const [result, setResult] = useState({});
-  const [imgSrc, setImgSrc] = useState({});
+  const [result, setResult] = useState<IResult | null>();
+  const [imgSrc, setImgSrc] = useState<HTMLImageElement | null>();
+  const [watch, setWatch] = useState();
+
   const [enabled, setEnabled] = useState(true);
   const [camDirection, setCamDirection] = useState("user");
-  const [watch, setWatch] = useState({});
 
   const videoConstraints = {
     width: 1280,
@@ -45,13 +53,16 @@ const Identifier = () => {
   const classifyVideo = () => {
     try {
       classifier.classify(imgSrc, gotResults);
-    } catch (err) {
-      setResult(err.message);
+    } catch (error: any) {
+      setResult(error.message);
       loading && setLoading(false);
     }
   };
 
-  const gotResults = async (error, results) => {
+  const gotResults = async (
+    error: any,
+    results: { label: string; confidence: number }[]
+  ) => {
     if (results) {
       const label = results[0].label; //Predicted label with highest confidence
       const confidence = results[0].confidence
@@ -60,10 +71,10 @@ const Identifier = () => {
         .splice(2, 2)
         .join("");
 
-      if (confidence < 80) setWarning(true);
+      if (Number(confidence) < 80) setWarning(true);
       {
         label
-          ? setResult({ label: label, confidence: confidence })
+          ? setResult({ label: label, confidence: Number(confidence) })
           : setResult({ label: "No watch found", confidence: null });
       }
       {
@@ -73,11 +84,16 @@ const Identifier = () => {
   };
 
   const capture = async () => {
-    const imageSrc = webcamRef.current.getScreenshot();
-    let image = new Image();
-    image.src = imageSrc;
-
-    setImgSrc(image);
+    if (webcamRef.current?.getScreenshot) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      let image = new Image();
+      if (imageSrc) {
+        image.src = imageSrc;
+        setWarning(false);
+        setImgSrc(image);
+        setEnabled(false);
+      }
+    }
   };
 
   return (
@@ -90,6 +106,7 @@ const Identifier = () => {
             text="Toggle camera"
             onClick={() => setEnabled(!enabled)}
             disabled={loading}
+            hover
           />
           <Button
             style="flex md:hidden"
@@ -100,13 +117,14 @@ const Identifier = () => {
                 : setCamDirection("user");
             }}
             disabled={loading}
+            hover
           />
         </div>
 
         <div className="w-full md:w-7/12 max-w-2xl flex justify-center items-center shadow-md aspect-video overflow-hidden">
           {!enabled && imgSrc?.src && <img src={imgSrc.src} alt="screenshot" />}
           {enabled && (
-            <WebCam
+            <Webcam
               aria-label="Camera feed"
               ref={webcamRef}
               videoConstraints={videoConstraints}
@@ -126,34 +144,27 @@ const Identifier = () => {
             secondary
             disabled={!enabled}
             onClick={capture}
+            hover
           />
           <Button
             icon={BiTrash}
-            disabled={!imgSrc?.src}
+            disabled={!imgSrc?.src || enabled}
             onClick={() => {
-              setImgSrc({});
+              setImgSrc(null);
               setEnabled(true);
               setWarning(false);
             }}
             aria="Clear image"
-          ><p className="sr-only">Clear image</p></Button>
+            hover
+          />
         </div>
 
-        <b>
-          {loading ? (
-            "Loading..."
-          ) : (
-            <>
-              <p>{result.label}</p>
-              {warning && (
-                <p>Warning! Confidence is low, so this might not be correct!</p>
-              )}
-              {result.label !== "No watch found" && result.confidence && (
-                <p>{`${result.confidence}% confidence`}</p>
-              )}
-            </>
-          )}
-        </b>
+        {result?.label && result?.confidence && (
+          <Result
+            refference={result.label}
+            confidence={result.confidence}
+          />
+        )}
       </div>
     </>
   );
