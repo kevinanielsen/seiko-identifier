@@ -8,6 +8,7 @@ import { usePathname } from "next/navigation";
 import NavButton from "./SignOutButton";
 import { FiLogIn } from "react-icons/fi";
 import DropDown from "./DropDown";
+import clsx from "clsx";
 
 
 
@@ -21,17 +22,12 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
   return (
     <nav
       className="
-      flex 
-      justify-between
-      items-center
-      shadow-md
-      p-4
-      text-lg
+      navbar
     "
     >
       <Link
         href="/home"
-        className="flex justify-center items-center gap-3 shrink-0"
+        className="navbar-start gap-2"
       >
         <Image
           alt="Logo"
@@ -42,11 +38,11 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         />
         <h1 className="font-bold text-lg">Seiko Identifier</h1>
       </Link>
-      <ul className="items-center justify-center gap-6 w-3/4 mx-4 hidden sm:flex">
+      <ul className="navbar-center hidden sm:flex">
         <li className="shrink-0">
           <Link
             href="/identify"
-            className={path === "/identify" ? "border-b-2 border-sky-500" : ""}
+            className={clsx("mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative", path === "/identify" ? "border-b-2 border-sky-500" : "")}
           >
             Identify watch
           </Link>
@@ -54,16 +50,15 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <li>
           <Link
             href="/collection"
-            className={
-              path === "/collection" ? "border-b-2 border-sky-500" : ""
-            }
+            className={clsx("mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative", path === "/collection" ? "border-b-2 border-sky-500" : "")}
+              
           >
             Collection
           </Link>
         </li>
       </ul>
 
-      <div className="flex items-center justify-center gap-3 md:shrink-0">
+      <div className="navbar-end gap-4">
         <DropDown currentUser={currentUser} />
         <p className="hidden sm:block text-base">
           Welcome{currentUser && `, ${currentUser.name}`}

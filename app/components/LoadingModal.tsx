@@ -1,6 +1,5 @@
 "use client";
 
-import { ClipLoader } from "react-spinners";
 import { Dialog, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
@@ -47,7 +46,7 @@ const LoadingModal = () => {
           "
           >
             <Dialog.Panel>
-              <ClipLoader size={40} color="#0284c7" />
+              <span className="loading loading-spinner loading-lg text-primary" />
             </Dialog.Panel>
           </div>
         </div>

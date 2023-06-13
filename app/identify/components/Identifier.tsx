@@ -99,72 +99,72 @@ const Identifier: React.FC = () => {
   return (
     <>
       {loading && <LoadingModal />}
-
-      <div className="flex flex-col items-center p-4 gap-4">
-        <div className="flex gap-4">
-          <Button
-            text="Toggle camera"
-            onClick={() => setEnabled(!enabled)}
-            disabled={loading}
-            hover
-          />
-          <Button
-            style="flex md:hidden"
-            text="Flip camera"
-            onClick={() => {
-              camDirection === "user"
-                ? setCamDirection("environment")
-                : setCamDirection("user");
-            }}
-            disabled={loading}
-            hover
-          />
-        </div>
-
-        <div className="w-full md:w-7/12 max-w-2xl flex justify-center items-center shadow-md aspect-video overflow-hidden">
-          {!enabled && imgSrc?.src && <img src={imgSrc.src} alt="screenshot" />}
-          {enabled && (
-            <Webcam
-              aria-label="Camera feed"
-              ref={webcamRef}
-              videoConstraints={videoConstraints}
-              screenshotFormat="image/jpeg"
+      <div className="w-full flex items-center justify-center">
+        <div className="flex flex-col items-center p-4 gap-4 w-full md:w-7/12 max-w-2xl">
+          <div className="flex gap-4">
+            <Button
+              text="Toggle camera"
+              onClick={() => setEnabled(!enabled)}
+              disabled={loading}
+              hover
             />
-          )}
-          {!enabled && !imgSrc?.src && (
-            <div className="bg-gray-100 w-full h-full flex items-center justify-center text-xl font-bold">
-              Camera Disabled
-            </div>
-          )}
-        </div>
-        <div className="flex justify-center items-center w-full md:w-7/12 max-w-2xl gap-4">
-          <Button
-            text="Capture image"
-            fullWidth
-            secondary
-            disabled={!enabled}
-            onClick={capture}
-            hover
-          />
-          <Button
-            icon={BiTrash}
-            disabled={!imgSrc?.src || enabled}
-            onClick={() => {
-              setImgSrc(null);
-              setEnabled(true);
-              setWarning(false);
-            }}
-            aria="Clear image"
-            hover
-          />
-        </div>
+            <Button
+              style="flex md:hidden"
+              text="Flip camera"
+              onClick={() => {
+                camDirection === "user"
+                  ? setCamDirection("environment")
+                  : setCamDirection("user");
+              }}
+              disabled={loading}
+              hover
+            />
+          </div>
 
-        {result?.label && result?.confidence && (
-          <Result
-            refference={result.label}
-            confidence={result.confidence}
-          />
-        )}
+          <div className="w-full flex justify-center items-center shadow-md aspect-video overflow-hidden">
+            {!enabled && imgSrc?.src && (
+              <img src={imgSrc.src} alt="screenshot" className="w-full" />
+            )}
+            {enabled && (
+              <Webcam
+                aria-label="Camera feed"
+                ref={webcamRef}
+                videoConstraints={videoConstraints}
+                screenshotFormat="image/jpeg"
+              />
+            )}
+            {!enabled && !imgSrc?.src && (
+              <div className="bg-gray-100 w-full h-full flex items-center justify-center text-xl font-bold">
+                Camera Disabled
+              </div>
+            )}
+          </div>
+          <div className="flex justify-center items-center w-full gap-4">
+            <Button
+              text="Capture image"
+              fullWidth
+              secondary
+              disabled={!enabled}
+              onClick={capture}
+              hover
+            />
+            <Button
+              icon={BiTrash}
+              disabled={!imgSrc?.src || enabled}
+              onClick={() => {
+                setImgSrc(null);
+                setEnabled(true);
+                setWarning(false);
+              }}
+              aria="Clear image"
+              hover
+            />
+          </div>
+
+          {result?.label && result?.confidence && (
+            <Result refference={result.label} confidence={result.confidence} />
+          )}
+        </div>
       </div>
     </>
   );

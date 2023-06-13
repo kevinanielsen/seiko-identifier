@@ -4,6 +4,7 @@ const nextConfig = {
     domains: [
       "cdn.watchcharts.com",
       "avatars.githubusercontent.com",
+      "www.seikowatches.com"
     ]
   }
 }

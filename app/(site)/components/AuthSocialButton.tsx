@@ -24,25 +24,12 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={clsx(
-        `
-        border-[1px] 
-        flex 
-        items-center 
-        justify-center 
-        font-bold 
-        p-2 
-        rounded-md
-        gap-2
-        w-full
-      `,
-        secondary
-          ? "text-gray-100 bg-gray-900"
-          : "text-gray-600 border-gray-200 ",
-        disabled && "opacity-70"
+      className={clsx("btn btn-outline",
+        secondary && "btn-neutral",
+        disabled && "disabled"
       )}
     >
-      <Icon />
+      <Icon size={20} />
       {text}
     </button>
   );

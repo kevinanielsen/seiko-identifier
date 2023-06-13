@@ -30,7 +30,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="flex flex-col w-full">
-      <label htmlFor={id} className="text-gray-800 font-bold ml-[2px]">{label}</label>  
+      <label htmlFor={id} className="label">{label}</label>  
       <input 
         id={id}
         autoComplete={id}
@@ -40,15 +40,9 @@ const Input: React.FC<InputProps> = ({
         disabled={disabled}
         pattern={pattern}
         className={clsx(`
-        border-gray-200
-        border-[1px]
-        rounded-md
-        p-3
-        font-normal
-        mt-1
+        input input-bordered
       `,
-      errors[id] && "focus:ring-rose-500",
-      disabled && "opacity-50 cursor-default"
+      errors[id] && "input-error"
       )}
       />
     </div>

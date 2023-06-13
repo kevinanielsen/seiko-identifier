@@ -34,24 +34,12 @@ const Button: React.FC<ButtonProps> = ({
       aria-label={text ? text : aria}
       className={clsx(
         `
-        border
-        flex 
-        items-center 
-        justify-center 
-        font-bold 
-        p-2 
-        rounded-md
-        gap-2
-        shadow
+        btn
+        shrink
       `,
-        secondary
-          ? "text-gray-100 bg-gray-900"
-          : "text-gray-600 border-gray-200",
-        disabled && "opacity-70",
+        secondary && "btn-neutral",
         fullWidth && "w-full",
         style && style,
-        hover &&
-          "transition hover:transition duration-300 hover:duration-300 hover:drop-shadow-md hover:shadow-sky-200"
       )}
     >
       {text}
