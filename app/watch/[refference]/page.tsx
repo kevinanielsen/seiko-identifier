@@ -20,21 +20,25 @@ const Watch = () => {
         setData(response.data);
       })
       .catch((error: any) => {
+        console.log(error);
+        setData(null);
         toast.error("Something went wrong");
       })
       .finally(() => setLoading(false));
   }, [path]);
+
+  if (!data) return <><LoadingModal /></>
 
   return (
     <>
       {loading && <LoadingModal />}
       <div className="flex flex-col items-center">
         <div className="p-8 flex flex-col md:flex-row gap-8 w-full">
-          <div className="gap-4 flex flex-col w-5/12">
-            <h1 className="text-4xl font-bold">Seiko {refference}</h1>
+          <div className="gap-4 flex flex-col w-5/12 items-center">
+            <h1 className="text-4xl font-bold block">Seiko {refference}</h1>
             <Image
               src={data?.src}
-              className="h-[500px] rounded shadow-xl object-cover object-center"
+              className="h-[500px] rounded-xl shadow-xl object-cover object-center"
               alt="alt"
               height="500"
               width="375"
@@ -42,11 +46,16 @@ const Watch = () => {
             />
           </div>
           <div className="w-7/12">
-            <div className="collapse collapse-open bg-base-200">
+            <div className="collapse collapse-arrow border border-base-300">
               <input type="checkbox" />
-              <div className="collapse-title text-xl font-medium">About</div>
+              <div className="collapse-title text-xl font-medium">
+                About the watch
+              </div>
               <div className="collapse-content">
-                <p>hello</p>
+                {data?.collection && (<p>
+                  The Seiko {refference} is apart of the "{data.collection}"
+                  collection.
+                </p>)}
               </div>
             </div>
           </div>

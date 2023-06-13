@@ -1,7 +1,5 @@
 "use client";
 
-// @ts-expect-error
-import * as ml5 from "ml5";
 import React, { useEffect, useRef, useState } from "react";
 import LoadingModal from "../../components/LoadingModal";
 import Button from "@/app/components/Button";
@@ -19,15 +17,19 @@ interface IResult {
   confidence: number | null;
 }
 
+let ml5: any;
+
 const Identifier: React.FC = () => {
+  useEffect(() => {
+    ml5 = require('ml5');
+  }, [])
+
   const webcamRef = useRef<Webcam>(null);
 
   const [loading, setLoading] = useState(false);
 
-  const [warning, setWarning] = useState(false);
   const [result, setResult] = useState<IResult | null>();
   const [imgSrc, setImgSrc] = useState<HTMLImageElement | null>();
-  const [watch, setWatch] = useState();
 
   const [enabled, setEnabled] = useState(true);
   const [camDirection, setCamDirection] = useState("user");
@@ -51,11 +53,13 @@ const Identifier: React.FC = () => {
   }, [imgSrc]);
 
   const classifyVideo = () => {
-    try {
-      classifier.classify(imgSrc, gotResults);
-    } catch (error: any) {
-      setResult(error.message);
-      loading && setLoading(false);
+    if (imgSrc) {
+      try {
+        classifier.classify(imgSrc, gotResults);
+      } catch (error: any) {
+        setResult(error.message);
+        loading && setLoading(false);
+      }
     }
   };
 
@@ -71,7 +75,6 @@ const Identifier: React.FC = () => {
         .splice(2, 2)
         .join("");
 
-      if (Number(confidence) < 80) setWarning(true);
       {
         label
           ? setResult({ label: label, confidence: Number(confidence) })
@@ -89,7 +92,6 @@ const Identifier: React.FC = () => {
       let image = new Image();
       if (imageSrc) {
         image.src = imageSrc;
-        setWarning(false);
         setImgSrc(image);
         setEnabled(false);
       }
@@ -154,7 +156,6 @@ const Identifier: React.FC = () => {
               onClick={() => {
                 setImgSrc(null);
                 setEnabled(true);
-                setWarning(false);
               }}
               aria="Clear image"
               hover
