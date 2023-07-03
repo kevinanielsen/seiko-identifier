@@ -21,8 +21,8 @@ let ml5: any;
 
 const Identifier: React.FC = () => {
   useEffect(() => {
-    ml5 = require('ml5');
-  }, [])
+    ml5 = require("ml5");
+  }, []);
 
   const webcamRef = useRef<Webcam>(null);
 
@@ -80,9 +80,8 @@ const Identifier: React.FC = () => {
           ? setResult({ label: label, confidence: Number(confidence) })
           : setResult({ label: "No watch found", confidence: null });
       }
-      {
-        loading && setLoading(false);
-      }
+
+      fetch(`/api/watch/${label}/updateRecognizable`).then(() => console.log("Hello!"));
     }
   };
 

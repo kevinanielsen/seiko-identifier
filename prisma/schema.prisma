@@ -43,8 +43,9 @@ model Account {
 }
 
 model Watch {
-  id         String @id @default(auto()) @map("_id") @db.ObjectId
-  ref        String @unique
-  collection String
-  src        String @unique
+  id           String  @id @default(auto()) @map("_id") @db.ObjectId
+  ref          String  @unique
+  collection   String
+  src          String  @unique
+  recognizable Boolean
 }
