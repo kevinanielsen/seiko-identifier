@@ -1,5 +1,6 @@
 "use client";
 
+import WatchCard from "@/app/components/WatchCard";
 import axios from "axios";
 import clsx from "clsx";
 import Link from "next/link";
@@ -71,33 +72,7 @@ const Result = (props: { refference?: string; confidence?: number }) => {
         </Link>
       </figure>
       {src && collection && (
-        <div className="card-body">
-          <h2 className="card-title">{refference}</h2>
-          <div className="flex justify-center flex-col shrink-0">
-            <p className="">
-              <b>Collection: </b>Seiko {collection}
-            </p>
-          </div>
-          <div className="w-full">
-            <>
-              <label htmlFor="confidence" className="label">Confidence</label>
-              {confidence ? (
-                <progress
-                  value={confidence - 60}
-                  max="40"
-                  className={clsx(
-                    "progress w-full",
-                    confidence <= 80 && "progress-error",
-                    confidence <= 92 && "progress-warning",
-                    confidence > 92 && "progress-success"
-                  )}
-                />
-              ) : (
-                <progress max="100" className="progress w-full" />
-              )}
-            </>
-          </div>
-        </div>
+        <WatchCard refference={refference} collection={collection} src={src} confidence={confidence} />
       )}
     </div>
   );
