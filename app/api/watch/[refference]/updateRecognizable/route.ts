@@ -9,7 +9,7 @@ export async function GET(request: NextRequest, { params }: { params: IParams })
   try {
 
     if (!params.refference) {
-      return new NextResponse("INVALID WATCH REFFERENCE", { status: 404 });
+      return new NextResponse("INVALID_WATCH_REFFERENCE", { status: 404 });
     }
 
     let watch;
@@ -20,7 +20,8 @@ export async function GET(request: NextRequest, { params }: { params: IParams })
         }
       });
     } catch (error: any) {
-      return new NextResponse("INVALID WATCH REFFERENCE", { status: 404 });
+      console.error(error)
+      return NextResponse.error()
     }
 
     if (watch?.recognizable === true) return new NextResponse("Watch Already Recognizable");
