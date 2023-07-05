@@ -48,4 +48,5 @@ model Watch {
   collection   String
   src          String  @unique
   recognizable Boolean
+  dialColor    String?
 }
