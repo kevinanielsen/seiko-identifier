@@ -11,7 +11,7 @@ const Collection = () => {
   const [page, setPage] = useState(1);
   const [count, setCount] = useState(50);
 
-  const [recognizableOnly, setRecognizableOnly] = useState(false);
+  const [recognizableOnly, setRecognizableOnly] = useState(true);
 
   const [resultCount, setResultCount] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -50,7 +50,7 @@ const Collection = () => {
             <div className="form-control">
               <label className="label cursor-pointer gap-4">
                 <span className="label-text">AI Recognizable Only</span>
-                <input type="checkbox" className="checkbox checkbox-lg" onChange={(e) => setRecognizableOnly(e.target.checked)} />
+                <input type="checkbox" className="checkbox checkbox-lg" checked onChange={(e) => setRecognizableOnly(e.target.checked)} />
               </label>
             </div>
             <div className="form-control">
