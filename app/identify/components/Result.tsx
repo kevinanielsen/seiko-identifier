@@ -4,7 +4,7 @@ import WatchCard from "@/app/components/WatchCard";
 import axios from "axios";
 import clsx from "clsx";
 import Link from "next/link";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 
 interface IData {
   id: string;
@@ -13,7 +13,12 @@ interface IData {
   src: string;
 }
 
-const Result = (props: { refference?: string; confidence?: number }) => {
+interface ResultProps {
+  refference: string;
+  confidence: number;
+}
+
+const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
   const [data, setData] = useState<IData>({
     id: "",
     ref: "",
@@ -21,8 +26,6 @@ const Result = (props: { refference?: string; confidence?: number }) => {
     src: "",
   });
   const [loading, setLoading] = useState<boolean>(false);
-
-  const refference = props?.refference;
 
   useEffect(() => {
     if (refference !== "No watch found") {
@@ -40,7 +43,7 @@ const Result = (props: { refference?: string; confidence?: number }) => {
 
   if (!refference) return null;
 
-  if (refference === "No watch found")
+  if (refference === "No watch found" || confidence < 60) {
     return (
       <div className="card shadow-xl w-full bg-base-100">
         <div className="card-body items-center text-center">
@@ -56,21 +59,21 @@ const Result = (props: { refference?: string; confidence?: number }) => {
         </div>
       </div>
     );
-
-  const { collection, src } = data;
-  const { confidence } = props;
-
-  if (collection && src) {
-    return (
-      <WatchCard
-        refference={refference}
-        collection={collection}
-        src={src}
-        confidence={confidence}
-        fullWidth
-      />
-    );
   }
+  
+  const { collection, src } = data;
+
+  if (!collection || !src) return null;
+
+  return (
+    <WatchCard
+      refference={refference}
+      collection={collection}
+      src={src}
+      confidence={confidence}
+      fullWidth
+    />
+  );
 };
 
 export default Result;
