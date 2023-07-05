@@ -4,21 +4,46 @@ import prisma from "@/app/libs/prismadb";
 export async function GET(request: NextRequest) {
   const count = Number(request.nextUrl.searchParams.get("count"));
   const page = Number(request.nextUrl.searchParams.get("page"));
-  
+  const recognizable = request.nextUrl.searchParams.get("recognizable");
+
   try {
+    if (recognizable === "true" && count && page) {
+      const watchList = await prisma.watch.findMany({
+        where: {
+          recognizable: true,
+        },
+        take: count,
+        skip: count * page - count,
+      });
+
+      return NextResponse.json(watchList);
+    }
+
     if (count && page) {
       const watchList = await prisma.watch.findMany({
         take: count,
         skip: count * page - count,
-      })
+      });
 
       return NextResponse.json(watchList);
     }
-    
-    const watchList = await prisma.watch.findMany()
+
+    if (recognizable === "true") {
+      const watchList = await prisma.watch.findMany({
+        where: {
+          recognizable: true
+        }
+      });
+
+      return NextResponse.json(watchList);
+    }
+
+    const watchList = await prisma.watch.findMany();
     return NextResponse.json(watchList);
-    
   } catch (error: any) {
-    return new NextResponse("GET_MANY_WATCH_ERROR", { status: 500, statusText: error });
+    return new NextResponse("GET_MANY_WATCH_ERROR", {
+      status: 500,
+      statusText: error,
+    });
   }
 }

@@ -60,22 +60,17 @@ const Result = (props: { refference?: string; confidence?: number }) => {
   const { collection, src } = data;
   const { confidence } = props;
 
-  return (
-    <div className="card shadow-xl w-full">
-      <figure>
-        <Link href={`/watch/${refference}`} className="w-full flex items-center justify-center">
-          <img
-            src={src}
-            alt={`Image of ${refference}`}
-            className="h-64 aspect-auto"
-          />
-        </Link>
-      </figure>
-      {src && collection && (
-        <WatchCard refference={refference} collection={collection} src={src} confidence={confidence} />
-      )}
-    </div>
-  );
+  if (collection && src) {
+    return (
+      <WatchCard
+        refference={refference}
+        collection={collection}
+        src={src}
+        confidence={confidence}
+        fullWidth
+      />
+    );
+  }
 };
 
 export default Result;
