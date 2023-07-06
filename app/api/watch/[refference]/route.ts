@@ -1,11 +1,11 @@
 import prisma from "@/app/libs/prismadb";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
 interface IParams {
   refference: string;
 }
 
-export async function GET(request: Request, { params }: { params: IParams }) {
+export async function GET(request: NextRequest, { params }: { params: IParams }) {
   const ref = params.refference;
 
   try {

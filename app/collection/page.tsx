@@ -7,9 +7,10 @@ import { toast } from "react-hot-toast";
 import LoadingModal from "../components/LoadingModal";
 import WatchCard from "../components/WatchCard";
 
-const Collection = () => {
-  const [page, setPage] = useState(1);
-  const [count, setCount] = useState(50);
+const Collection: React.FC = () => {
+  const [page, setPage] = useState<number>(1);
+  const [count, setCount] = useState<number>(50);
+  const [maxPages, setMaxPages] = useState<number>();
 
   const [recognizableOnly, setRecognizableOnly] = useState(true);
 
@@ -34,8 +35,9 @@ const Collection = () => {
   }, [count, setCount, page, setPage, recognizableOnly]);
 
   useEffect(() => {
-    axios.get(`/api/watch/all?recognizable=${String(recognizableOnly)}`)
-    .then((res) => setResultCount(res.data.length));
+    axios
+      .get(`/api/watch/all?recognizable=${String(recognizableOnly)}`)
+      .then((res) => setResultCount(res.data.length));
   }, [recognizableOnly]);
 
   return (
@@ -50,7 +52,15 @@ const Collection = () => {
             <div className="form-control">
               <label className="label cursor-pointer gap-4">
                 <span className="label-text">AI Recognizable Only</span>
-                <input type="checkbox" className="checkbox checkbox-lg" checked onChange={(e) => setRecognizableOnly(e.target.checked)} />
+                <input
+                  type="checkbox"
+                  className="checkbox checkbox-lg"
+                  checked={recognizableOnly}
+                  onChange={(e) => {
+                    setRecognizableOnly(e.target.checked);
+                    setPage(1);
+                  }}
+                />
               </label>
             </div>
             <div className="form-control">
@@ -85,6 +95,19 @@ const Collection = () => {
           ))}
         </div>
       )}
+      <div className="w-full flex flex-row justify-center items-center p-4 gap-4">
+        <button className="btn" disabled={page === 1} onClick={() => setPage(page - 1)}>
+          {"<"}
+        </button>
+        <span className="btn btn-neutral">{page}</span>
+        <button
+          disabled={page === maxPages}
+          onClick={() => setPage(page + 1)}
+          className="btn"
+        >
+          {">"}
+        </button>
+      </div>
     </div>
   );
 };
