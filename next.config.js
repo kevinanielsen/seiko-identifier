@@ -5,7 +5,8 @@ const nextConfig = {
       "cdn.watchcharts.com",
       "avatars.githubusercontent.com",
       "www.seikowatches.com",
-      "cdn2.jomashop.com"
+      "cdn2.jomashop.com",
+      "todicerg.sirv.com"
     ]
   }
 }

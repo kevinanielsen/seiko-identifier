@@ -6,6 +6,8 @@ import Button from "@/app/components/Button";
 import { BiTrash } from "react-icons/bi";
 import Webcam from "react-webcam";
 import Result from "./Result";
+import axios from "axios";
+import getRefs from "@/app/actions/getRefs";
 
 // TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
 
@@ -25,6 +27,8 @@ const Identifier: React.FC = () => {
   }, []);
 
   const webcamRef = useRef<Webcam>(null);
+
+  const [refList, setRefList] = useState<{ ref: string }[]>();
 
   const [loading, setLoading] = useState(false);
 
@@ -52,6 +56,15 @@ const Identifier: React.FC = () => {
     classifyVideo();
   }, [imgSrc]);
 
+  useEffect(() => {
+    axios
+      .get("/api/watch/refs")
+      .then((res) => {
+        setRefList(res.data);
+      })
+      .catch((error: any) => console.log(error));
+  }, []);
+
   const classifyVideo = () => {
     if (imgSrc) {
       try {
@@ -75,13 +88,14 @@ const Identifier: React.FC = () => {
         .splice(2, 2)
         .join("");
 
-      {
-        label
-          ? setResult({ label: label, confidence: Number(confidence) })
-          : setResult({ label: "No watch found", confidence: null });
+      if (refList?.find((val) => val.ref == label)) {
+        setResult({ label: label, confidence: Number(confidence) });
+        fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
+          console.log(err)
+        );
+      } else {
+        setResult({ label: "No watch found", confidence: null });
       }
-
-      fetch(`/api/watch/${label}/updateRecognizable`).then(() => console.log("Hello!"));
     }
   };
 
@@ -161,7 +175,7 @@ const Identifier: React.FC = () => {
             />
           </div>
 
-          {result?.label && result?.confidence && (
+          {result && (
             <Result refference={result.label} confidence={result.confidence} />
           )}
         </div>

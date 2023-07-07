@@ -26,6 +26,7 @@ const SignOutButton: React.FC<SignOutButtonProps> = ({
           ? "gap-2 flex items-center px-4 py-2 hover:bg-sky-200 relative m-1 rounded-md"
           : "flex gap-2 justify-center items-center"
       }
+      aria-label="Sign out"
     >
       <FiLogOut size={20} className={dropdown ? "text-sky-500" : ""} />
       {children}

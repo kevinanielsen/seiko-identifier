@@ -13,8 +13,6 @@ export async function PUT(
     const body = await request.json();
     const { refference } = params;
 
-    console.log(body);
-
     if (!body) {
       return NextResponse.json("INVALID_BODY_WATCH_UPDATE", { status: 400 });
     }

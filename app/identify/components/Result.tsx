@@ -1,9 +1,8 @@
 "use client";
 
+import LoadingModal from "@/app/components/LoadingModal";
 import WatchCard from "@/app/components/WatchCard";
 import axios from "axios";
-import clsx from "clsx";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 interface IData {
@@ -15,7 +14,7 @@ interface IData {
 
 interface ResultProps {
   refference: string;
-  confidence: number;
+  confidence: number | null;
 }
 
 const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
@@ -30,10 +29,9 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
   useEffect(() => {
     if (refference !== "No watch found") {
       setLoading(true);
-      const result = axios
+      axios
         .get(`/api/watch/${refference}`)
         .then((res) => {
-          console.log(res);
           setData(res.data);
         })
         .catch((error: any) => console.log(error))
@@ -41,13 +39,13 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
     }
   }, [refference]);
 
-  if (!refference) return null;
+  if (loading) return <LoadingModal />;
 
-  if (refference === "No watch found" || confidence < 60) {
+  if (!confidence) {
     return (
       <div className="card shadow-xl w-full bg-base-100">
         <div className="card-body items-center text-center">
-          <h2 className="card-title">{refference}</h2>
+          <h2 className="card-title">No watch found</h2>
           <div className="flex items-center flex-col">
             <p className="underline font-bold text-lg">Maybe try</p>
             <ul className="list-disc list-inside pb-1">
@@ -60,17 +58,13 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
       </div>
     );
   }
-  
-  const { collection, src } = data;
-
-  if (!collection || !src) return null;
 
   return (
     <WatchCard
-      refference={refference}
-      collection={collection}
-      src={src}
+      collection={data.collection}
+      refference={data.ref}
       confidence={confidence}
+      src={data.src}
       fullWidth
     />
   );
