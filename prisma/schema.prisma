@@ -20,6 +20,8 @@ model User {
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 
+  likedWatches String[] @db.ObjectId
+
   accounts Account[]
 }
 

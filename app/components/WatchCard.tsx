@@ -1,6 +1,7 @@
 import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
+import { FiHeart } from "react-icons/fi";
 
 interface WatchCardProps {
   refference: string;
@@ -8,6 +9,7 @@ interface WatchCardProps {
   src: string;
   confidence?: number | false;
   fullWidth: boolean;
+  likeButton?: boolean;
 }
 
 const WatchCard: React.FC<WatchCardProps> = ({
@@ -17,6 +19,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
   confidence,
   fullWidth
 }) => {
+
   return (
     <div className={clsx("card shadow-xl flex-shrink w-64 bg-base-100", fullWidth === true && "w-full", fullWidth === false && "max-w-96")}>
       <figure>
@@ -30,6 +33,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
             className="h-64 aspect-auto"
           />
         </Link>
+        <button><FiHeart size={24} /></button>
       </figure>
       <div className="card-body">
         <h2 className="card-title">{refference}</h2>
