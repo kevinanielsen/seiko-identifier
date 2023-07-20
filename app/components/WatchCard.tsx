@@ -1,7 +1,8 @@
 import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
-import { FiHeart } from "react-icons/fi";
+import LikeButton from "./WatchComponents/LikeButton";
+import { useSession } from "next-auth/react";
 
 interface WatchCardProps {
   refference: string;
@@ -17,11 +18,22 @@ const WatchCard: React.FC<WatchCardProps> = ({
   collection,
   src,
   confidence,
-  fullWidth
+  fullWidth,
 }) => {
+  const likeButton = true;
+
+  const session = useSession();
+
+  console.log(session);
 
   return (
-    <div className={clsx("card shadow-xl flex-shrink w-64 bg-base-100", fullWidth === true && "w-full", fullWidth === false && "max-w-96")}>
+    <div
+      className={clsx(
+        "card shadow-xl flex-shrink w-64 bg-base-100",
+        fullWidth === true && "w-full",
+        fullWidth === false && "max-w-96"
+      )}
+    >
       <figure>
         <Link
           href={`/watch/${refference}`}
@@ -33,7 +45,9 @@ const WatchCard: React.FC<WatchCardProps> = ({
             className="h-64 aspect-auto"
           />
         </Link>
-        <button><FiHeart size={24} /></button>
+        {likeButton && (
+          <LikeButton />
+        )}
       </figure>
       <div className="card-body">
         <h2 className="card-title">{refference}</h2>
