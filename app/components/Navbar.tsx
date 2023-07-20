@@ -10,8 +10,6 @@ import { FiLogIn } from "react-icons/fi";
 import DropDown from "./DropDown";
 import clsx from "clsx";
 
-
-
 interface NavbarProps {
   currentUser?: User | null;
 }
@@ -25,10 +23,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
       navbar
     "
     >
-      <Link
-        href="/home"
-        className="navbar-start gap-2"
-      >
+      <Link href="/home" className="navbar-start gap-2">
         <Image
           alt="Logo"
           width={128}
@@ -42,7 +37,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <li className="shrink-0">
           <Link
             href="/identify"
-            className={clsx("mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative", path === "/identify" ? "border-b-2 border-sky-500" : "")}
+            className={clsx(
+              "mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative",
+              path === "/identify" ? "border-b-2 border-sky-500" : ""
+            )}
           >
             Identify watch
           </Link>
@@ -50,8 +48,10 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
         <li>
           <Link
             href="/collection"
-            className={clsx("mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative", path === "/collection" ? "border-b-2 border-sky-500" : "")}
-              
+            className={clsx(
+              "mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative",
+              path === "/collection" ? "border-b-2 border-sky-500" : ""
+            )}
           >
             Collection
           </Link>

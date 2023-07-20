@@ -1,4 +1,3 @@
-import { Menu, Transition } from "@headlessui/react";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { FiMenu, FiWatch, FiBookOpen, FiLogIn } from "react-icons/fi";
