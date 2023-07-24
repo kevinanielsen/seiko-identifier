@@ -15,7 +15,8 @@
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
-    "prettier": "prettier --write ."
+    "prettier": "prettier --write .",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
@@ -47,6 +48,7 @@
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "daisyui": "^3.1.0",
+    "husky": "^8.0.3",
     "prisma": "^4.16.2"
   }
 }
