@@ -1,6 +1,6 @@
 "use client";
 
-import LoadingModal from "@/app/components/LoadingModal";
+import LoadingModal from "@/components/LoadingModal";
 import axios from "axios";
 import Image from "next/image";
 import { usePathname } from "next/navigation";

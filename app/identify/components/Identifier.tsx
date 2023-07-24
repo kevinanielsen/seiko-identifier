@@ -1,13 +1,12 @@
 "use client";
 
+import Button from "@/components/Button";
+import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import LoadingModal from "../../components/LoadingModal";
-import Button from "@/app/components/Button";
 import { BiTrash } from "react-icons/bi";
 import Webcam from "react-webcam";
+import LoadingModal from "../../../components/LoadingModal";
 import Result from "./Result";
-import axios from "axios";
-import getRefs from "@/app/actions/getRefs";
 
 // TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
 
@@ -78,7 +77,7 @@ const Identifier: React.FC = () => {
 
   const gotResults = async (
     error: any,
-    results: { label: string; confidence: number }[],
+    results: { label: string; confidence: number }[]
   ) => {
     if (results) {
       const label = results[0].label; //Predicted label with highest confidence
@@ -91,7 +90,7 @@ const Identifier: React.FC = () => {
       if (refList?.find((val) => val.ref == label)) {
         setResult({ label: label, confidence: Number(confidence) });
         fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
-          console.log(err),
+          console.log(err)
         );
       } else {
         setResult({ label: "No watch found", confidence: null });

@@ -3,9 +3,9 @@
 import { Watch } from "@prisma/client";
 import { useState } from "react";
 import { toast } from "react-hot-toast";
-import LoadingModal from "../components/LoadingModal";
-import WatchCard from "../components/WatchCard";
 import useSWR from "swr";
+import LoadingModal from "../../components/LoadingModal";
+import WatchCard from "../../components/WatchCard";
 import fetcher from "../util/fetcher";
 import CollectionForm from "./components/CollectionForm";
 
@@ -18,9 +18,9 @@ const Collection: React.FC = () => {
 
   const { data, error, isLoading } = useSWR<Watch[]>(
     `/api/watch/all?count=${count}&page=${page}&recognizable=${String(
-      recognizableOnly,
+      recognizableOnly
     )}`,
-    fetcher,
+    fetcher
   );
 
   if (isLoading) return <LoadingModal />;

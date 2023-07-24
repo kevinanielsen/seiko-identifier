@@ -1,9 +1,9 @@
 "use client";
 
-import LoadingModal from "@/app/components/LoadingModal";
-import WatchCard from "@/app/components/WatchCard";
+import LoadingModal from "@/components/LoadingModal";
+import WatchCard from "@/components/WatchCard";
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 interface IData {
   id: string;

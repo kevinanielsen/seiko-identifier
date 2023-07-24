@@ -1,5 +1,5 @@
+import Navbar from "../../components/Navbar";
 import getCurrentUser from "../actions/getCurrentUser";
-import Navbar from "../components/Navbar";
 
 export default async function HomeLayout({
   children,
