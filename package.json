@@ -10,7 +10,7 @@
     "npm": "9.x"
   },
   "scripts": {
-    "dev": "next dev",
+    "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
@@ -49,6 +49,7 @@
     "@commitlint/cli": "^17.6.7",
     "@commitlint/config-conventional": "^17.6.7",
     "@types/bcryptjs": "^2.4.2",
+    "cross-env": "^7.0.3",
     "daisyui": "^3.1.0",
     "husky": "^8.0.3",
     "prisma": "^4.16.2"
