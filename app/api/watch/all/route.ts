@@ -31,8 +31,8 @@ export async function GET(request: NextRequest) {
     if (recognizable === "true") {
       const watchList = await prisma.watch.findMany({
         where: {
-          recognizable: true
-        }
+          recognizable: true,
+        },
       });
 
       return NextResponse.json(watchList);

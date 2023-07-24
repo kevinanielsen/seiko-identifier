@@ -18,13 +18,12 @@ const Collection: React.FC = () => {
 
   const { data, error, isLoading } = useSWR<Watch[]>(
     `/api/watch/all?count=${count}&page=${page}&recognizable=${String(
-      recognizableOnly
+      recognizableOnly,
     )}`,
-    fetcher
+    fetcher,
   );
 
-  if (isLoading)
-    return <LoadingModal />;
+  if (isLoading) return <LoadingModal />;
 
   if (error) {
     toast.error("Something went wrong! try again.");

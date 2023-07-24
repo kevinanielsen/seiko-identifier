@@ -5,9 +5,9 @@ export async function GET() {
   try {
     const refList = await prisma.watch.findMany({
       select: {
-        ref: true
-      }
-    })
+        ref: true,
+      },
+    });
 
     return NextResponse.json(refList, { status: 200 });
   } catch (error: any) {

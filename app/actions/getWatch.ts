@@ -5,13 +5,13 @@ const getWatch = async (ref: string) => {
     const watch = await prisma.watch.findFirst({
       where: {
         ref: ref,
-      }
+      },
     });
 
     return watch;
   } catch (error: any) {
     return null;
   }
-}
+};
 
 export default getWatch;

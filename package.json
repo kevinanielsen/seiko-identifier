@@ -1,13 +1,21 @@
 {
   "name": "seiko-identifier",
+  "author": "Kevin Alex Nielsen",
+  "description": "A database and identifying web app for Seiko wrist watches",
   "version": "0.1.0",
   "private": true,
+  "homepage": "https://github.com/kevinanielsen/seiko-identifier",
+  "engines": {
+    "node": ">=19.1.0",
+    "npm": ">=9.6.4"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "prettier": "prettier --write ."
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

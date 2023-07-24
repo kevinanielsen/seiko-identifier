@@ -5,7 +5,10 @@ interface IParams {
   refference: string;
 }
 
-export async function GET(request: NextRequest, { params }: { params: IParams }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: IParams },
+) {
   const ref = params.refference;
 
   try {
@@ -16,7 +19,10 @@ export async function GET(request: NextRequest, { params }: { params: IParams })
     });
 
     if (!watch) {
-      return NextResponse.json("Invalid Refference", { status: 400, statusText: `Attempted refference lookup: ${ref}` });
+      return NextResponse.json("Invalid Refference", {
+        status: 400,
+        statusText: `Attempted refference lookup: ${ref}`,
+      });
     }
 
     return NextResponse.json(watch);

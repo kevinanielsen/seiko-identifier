@@ -96,7 +96,11 @@ const Form = () => {
       className="max-w-lg w-full flex flex-col justify-center items-center p-4 gap-4"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <AuthSocialButton text="Continue with Github" onClick={() => socialAction("github")} icon={BsGithub} />
+      <AuthSocialButton
+        text="Continue with Github"
+        onClick={() => socialAction("github")}
+        icon={BsGithub}
+      />
       <p className="font-light text-gray-500 text-xs">or</p>
       {variant === "REGISTER" && (
         <Input
@@ -131,16 +135,31 @@ const Form = () => {
         disabled={isLoading}
         required
       />
-      <Button disabled={isLoading} text={variant === "LOGIN" ? "Log in" : "Register"} secondary type="submit" />
-      {variant === "LOGIN" ? (<p className="text-gray-900">
-        Don't have an account?{" "}
-        <button type="button" className="text-sky-500" onClick={toggleVariant}>
-          Sign up
-        </button>
-      </p>) : (
+      <Button
+        disabled={isLoading}
+        text={variant === "LOGIN" ? "Log in" : "Register"}
+        secondary
+        type="submit"
+      />
+      {variant === "LOGIN" ? (
+        <p className="text-gray-900">
+          Don't have an account?{" "}
+          <button
+            type="button"
+            className="text-sky-500"
+            onClick={toggleVariant}
+          >
+            Sign up
+          </button>
+        </p>
+      ) : (
         <p className="text-gray-900">
           Already have an account?{" "}
-          <button type="button" className="text-sky-500" onClick={toggleVariant}>
+          <button
+            type="button"
+            className="text-sky-500"
+            onClick={toggleVariant}
+          >
             Sign in
           </button>
         </p>

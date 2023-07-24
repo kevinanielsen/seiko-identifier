@@ -39,7 +39,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
             href="/identify"
             className={clsx(
               "mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative",
-              path === "/identify" ? "border-b-2 border-sky-500" : ""
+              path === "/identify" ? "border-b-2 border-sky-500" : "",
             )}
           >
             Identify watch
@@ -50,7 +50,7 @@ const Navbar: React.FC<NavbarProps> = ({ currentUser }) => {
             href="/collection"
             className={clsx(
               "mx-4 pb-1 hover:border-b-2 hover:border-sky-900 transition relative",
-              path === "/collection" ? "border-b-2 border-sky-500" : ""
+              path === "/collection" ? "border-b-2 border-sky-500" : "",
             )}
           >
             Collection

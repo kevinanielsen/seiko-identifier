@@ -1,7 +1,6 @@
 import clsx from "clsx";
 import { IconType } from "react-icons";
 
-
 interface AuthSocialButtonProps {
   text?: string;
   icon: IconType;
@@ -17,16 +16,17 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   secondary,
   disabled,
   type,
-  onClick
+  onClick,
 }) => {
   return (
     <button
       type={type}
       disabled={disabled}
       onClick={onClick}
-      className={clsx("btn btn-outline",
+      className={clsx(
+        "btn btn-outline",
         secondary && "btn-neutral",
-        disabled && "disabled"
+        disabled && "disabled",
       )}
     >
       <Icon size={20} />

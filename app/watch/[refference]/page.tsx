@@ -27,7 +27,12 @@ const Watch = () => {
       .finally(() => setLoading(false));
   }, [path]);
 
-  if (!data) return <><LoadingModal /></>
+  if (!data)
+    return (
+      <>
+        <LoadingModal />
+      </>
+    );
 
   return (
     <>
@@ -52,10 +57,12 @@ const Watch = () => {
                 About the watch
               </div>
               <div className="collapse-content">
-                {data?.collection && (<p>
-                  The Seiko {refference} is apart of the "{data.collection}"
-                  collection.
-                </p>)}
+                {data?.collection && (
+                  <p>
+                    The Seiko {refference} is apart of the "{data.collection}"
+                    collection.
+                  </p>
+                )}
               </div>
             </div>
           </div>

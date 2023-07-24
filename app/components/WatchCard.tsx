@@ -31,7 +31,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
       className={clsx(
         "card shadow-xl flex-shrink w-64 bg-base-100",
         fullWidth === true && "w-full",
-        fullWidth === false && "max-w-96"
+        fullWidth === false && "max-w-96",
       )}
     >
       <figure>
@@ -45,9 +45,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
             className="h-64 aspect-auto"
           />
         </Link>
-        {likeButton && (
-          <LikeButton />
-        )}
+        {likeButton && <LikeButton />}
       </figure>
       <div className="card-body">
         <h2 className="card-title">{refference}</h2>
@@ -69,7 +67,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
                   "progress w-full",
                   confidence <= 80 && "progress-error",
                   confidence <= 92 && "progress-warning",
-                  confidence > 92 && "progress-success"
+                  confidence > 92 && "progress-success",
                 )}
               />
             </>

@@ -1,9 +1,5 @@
 import clsx from "clsx";
-import {
-  FieldErrors,
-  FieldValues,
-  UseFormRegister
-} from 'react-hook-form';
+import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
   id: string;
@@ -30,8 +26,10 @@ const Input: React.FC<InputProps> = ({
 }) => {
   return (
     <div className="flex flex-col w-full">
-      <label htmlFor={id} className="label">{label}</label>  
-      <input 
+      <label htmlFor={id} className="label">
+        {label}
+      </label>
+      <input
         id={id}
         autoComplete={id}
         {...register(id, { required })}
@@ -39,13 +37,14 @@ const Input: React.FC<InputProps> = ({
         placeholder={placeholder}
         disabled={disabled}
         pattern={pattern}
-        className={clsx(`
+        className={clsx(
+          `
         input input-bordered
       `,
-      errors[id] && "input-error"
-      )}
+          errors[id] && "input-error",
+        )}
       />
     </div>
   );
-}
+};
 export default Input;

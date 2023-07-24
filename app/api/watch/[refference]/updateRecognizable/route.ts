@@ -5,9 +5,11 @@ interface IParams {
   refference: string;
 }
 
-export async function GET(request: NextRequest, { params }: { params: IParams }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: IParams },
+) {
   try {
-
     if (!params.refference) {
       return new NextResponse("INVALID_WATCH_REFFERENCE", { status: 404 });
     }
@@ -16,23 +18,24 @@ export async function GET(request: NextRequest, { params }: { params: IParams })
     try {
       watch = await prisma.watch.findFirst({
         where: {
-          ref: params.refference
-        }
+          ref: params.refference,
+        },
       });
     } catch (error: any) {
-      console.error(error)
-      return NextResponse.error()
+      console.error(error);
+      return NextResponse.error();
     }
 
-    if (watch?.recognizable === true) return new NextResponse("Watch Already Recognizable");
+    if (watch?.recognizable === true)
+      return new NextResponse("Watch Already Recognizable");
 
     const res = await prisma.watch.update({
       data: {
-        recognizable: true
+        recognizable: true,
       },
       where: {
-        ref: params.refference
-      }
+        ref: params.refference,
+      },
     });
     return NextResponse.json(res, { status: 200 });
   } catch (error: any) {

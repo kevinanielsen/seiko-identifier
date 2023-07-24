@@ -7,7 +7,7 @@ const Home = () => {
     <div>
       <Identifier />
     </div>
-  )
-}
+  );
+};
 
 export default Home;

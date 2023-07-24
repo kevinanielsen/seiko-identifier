@@ -7,7 +7,7 @@ interface IParams {
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: IParams }
+  { params }: { params: IParams },
 ) {
   try {
     const body = await request.json();

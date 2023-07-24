@@ -6,9 +6,9 @@ const nextConfig = {
       "avatars.githubusercontent.com",
       "www.seikowatches.com",
       "cdn2.jomashop.com",
-      "todicerg.sirv.com"
-    ]
-  }
-}
+      "todicerg.sirv.com",
+    ],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

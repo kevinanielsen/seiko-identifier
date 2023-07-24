@@ -14,7 +14,7 @@ interface IData {
 
 interface ResultProps {
   refference: string;
-  confidence: number | null;
+  confidence: number | null;
 }
 
 const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
