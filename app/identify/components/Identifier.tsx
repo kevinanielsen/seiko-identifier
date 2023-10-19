@@ -140,6 +140,7 @@ const Identifier: React.FC = () => {
               <img src={imgSrc.src} alt="screenshot" className="w-full" />
             )}
             {enabled && (
+              // @ts-expect-error
               <Webcam
                 aria-label="Camera feed"
                 ref={webcamRef}
