@@ -44,7 +44,8 @@
     "sharp": "^0.32.4",
     "swr": "^2.2.0",
     "tailwindcss": "^3.3.3",
-    "typescript": "5.0.4"
+    "tfjs-image-node": "^1.0.1",
+    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.7",
