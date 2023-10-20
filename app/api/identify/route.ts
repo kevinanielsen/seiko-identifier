@@ -13,7 +13,7 @@ interface IResult {
   confidence: number;
 }
 
-export default async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest, res: NextResponse) {
   const body: IBody = await req.json();
   const imageToClassify = body.image;
 
