@@ -14,7 +14,7 @@ interface IData {
 
 interface ResultProps {
   refference: string;
-  confidence: number | null;
+  confidence?: string;
 }
 
 const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
@@ -63,7 +63,7 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
     <WatchCard
       collection={data.collection}
       refference={data.ref}
-      confidence={confidence}
+      confidence={Number(confidence)}
       src={data.src}
       fullWidth
     />
