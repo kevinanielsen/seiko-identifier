@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    const result: IResult[] | Error = await classifyImage(modelURL, img.url);
+    const result: IResult[] | Error = await classifyImage(modelURL, img.url, "regular");
 
     if (result instanceof Array) {
       return NextResponse.json(result[0], { status: 200 });
