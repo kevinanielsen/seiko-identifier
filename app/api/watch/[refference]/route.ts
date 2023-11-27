@@ -1,14 +1,11 @@
 import prisma from "@/app/libs/prismadb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
 interface IParams {
   refference: string;
 }
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: IParams },
-) {
+export async function GET({ params }: { params: IParams }) {
   const ref = params.refference;
 
   try {
@@ -26,7 +23,7 @@ export async function GET(
     }
 
     return NextResponse.json(watch);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error, "ERROR_MESSAGES_SEEN");
     return new NextResponse("Internal Error", { status: 500 });
   }

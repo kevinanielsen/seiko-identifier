@@ -2,7 +2,8 @@
 
 import Button from "@/components/Button";
 import axios from "axios";
-import React, { useEffect, useRef, useState } from "react";
+import NextImage from "next/image";
+import React, { useRef, useState } from "react";
 import { BiTrash } from "react-icons/bi";
 import Webcam from "react-webcam";
 import LoadingModal from "../../../components/LoadingModal";
@@ -15,8 +16,6 @@ interface IResult {
 
 const Identifier: React.FC = () => {
   const webcamRef = useRef<Webcam>(null);
-
-  const [refList, setRefList] = useState<{ ref: string }[]>();
 
   const [loading, setLoading] = useState(false);
 
@@ -32,23 +31,16 @@ const Identifier: React.FC = () => {
     facingMode: camDirection,
   };
 
-  useEffect(() => {
-    axios
-      .get("/api/watch/refs")
-      .then((res) => {
-        setRefList(res.data);
-      })
-      .catch((error: any) => console.log(error));
-  }, []);
-
   const gotResults = async (result: { label: string; probability: string }) => {
     if (result) {
       const label = result.label; //Predicted label with highest confidence
       const probability = result.probability;
       setResult({ label: label, probability: probability });
-      fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
-        console.log(err)
-      );
+      if (!label.includes("No ")) {
+        fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
+          console.log(err)
+        );
+      }
     }
   };
 
@@ -68,7 +60,7 @@ const Identifier: React.FC = () => {
   const capture = async () => {
     if (webcamRef.current?.getScreenshot) {
       const imageSrc = webcamRef.current.getScreenshot();
-      let image = new Image();
+      const image = new Image();
       if (imageSrc) {
         image.src = imageSrc;
         classifyVideo(imageSrc);
@@ -104,7 +96,12 @@ const Identifier: React.FC = () => {
 
           <div className="w-full flex justify-center items-center shadow-md aspect-video overflow-hidden">
             {!enabled && imgSrc?.src && (
-              <img src={imgSrc.src} alt="screenshot" className="w-full" />
+              <NextImage
+                src={imgSrc.src}
+                alt="screenshot"
+                fill
+                className="w-full object-contain"
+              />
             )}
             {enabled && (
               <Webcam

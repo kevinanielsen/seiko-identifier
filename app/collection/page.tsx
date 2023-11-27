@@ -12,7 +12,6 @@ import CollectionForm from "./components/CollectionForm";
 const Collection: React.FC = () => {
   const [page, setPage] = useState<number>(1);
   const [count, setCount] = useState<number>(50);
-  const [maxPages, setMaxPages] = useState<number>();
 
   const [recognizableOnly, setRecognizableOnly] = useState(true);
 
@@ -33,10 +32,11 @@ const Collection: React.FC = () => {
   return (
     <div className="m-4">
       <CollectionForm
-        recognizableOnly
         setCount={setCount}
         setRecognizableOnly={setRecognizableOnly}
+        resultCount={data?.length}
         setPage={setPage}
+        count={count}
       />
       {data && (
         <div className="flex flex-wrap flex-row gap-4 justify-between">
@@ -60,11 +60,7 @@ const Collection: React.FC = () => {
           {"<"}
         </button>
         <span className="btn btn-neutral">{page}</span>
-        <button
-          disabled={page === maxPages}
-          onClick={() => setPage(page + 1)}
-          className="btn"
-        >
+        <button onClick={() => setPage(page + 1)} className="btn">
           {">"}
         </button>
       </div>

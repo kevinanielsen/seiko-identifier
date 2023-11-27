@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    remotePatterns: [
+      { hostname: "todicerg.sirv.com" },
+      { hostname: "www.watchsleuth.com" },
+    ],
+  },
   async headers() {
     return [
       {

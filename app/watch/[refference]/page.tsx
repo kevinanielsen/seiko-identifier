@@ -1,6 +1,7 @@
 "use client";
 
 import LoadingModal from "@/components/LoadingModal";
+import { Watch } from "@/types/watch";
 import axios from "axios";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -10,16 +11,16 @@ import { toast } from "react-hot-toast";
 const Watch = () => {
   const path = usePathname();
   const refference = path.split("/")[2];
-  const [data, setData] = useState<any>();
+  const [data, setData] = useState<Watch | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     axios
-      .get(`/api${path}`)
-      .then((response: any) => {
+      .get<Watch>(`/api${path}`)
+      .then((response) => {
         setData(response.data);
       })
-      .catch((error: any) => {
+      .catch((error: unknown) => {
         console.log(error);
         setData(null);
         toast.error("Something went wrong");
@@ -59,8 +60,8 @@ const Watch = () => {
               <div className="collapse-content">
                 {data?.collection && (
                   <p>
-                    The Seiko {refference} is apart of the "{data.collection}"
-                    collection.
+                    The Seiko {refference} is apart of the &quot;
+                    {data.collection}&quot; collection.
                   </p>
                 )}
               </div>

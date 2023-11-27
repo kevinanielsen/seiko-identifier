@@ -143,7 +143,7 @@ const Form = () => {
       />
       {variant === "LOGIN" ? (
         <p className="text-gray-900">
-          Don't have an account?{" "}
+          Don&apos;t have an account?{" "}
           <button
             type="button"
             className="text-sky-500"

@@ -27,7 +27,7 @@ export async function POST(req: NextRequest) {
 
     const img = await cloudinary.uploader.upload(
       image,
-      (error: any, result: any) => {
+      (error: undefined, result: undefined) => {
         if (error) {
           return NextResponse.json(error, { status: 500 });
         }
@@ -35,7 +35,11 @@ export async function POST(req: NextRequest) {
       }
     );
 
-    const result: IResult[] | Error = await classifyImage(modelURL, img.url, "regular");
+    const result: IResult[] | Error = await classifyImage(
+      modelURL,
+      img.url,
+      "node"
+    );
 
     if (result instanceof Array) {
       return NextResponse.json(result[0], { status: 200 });

@@ -1,7 +1,8 @@
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
-import LikeButton from "./WatchComponents/LikeButton";
+// import LikeButton from "./WatchComponents/LikeButton";
 
 interface WatchCardProps {
   refference: string;
@@ -19,9 +20,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
   confidence,
   fullWidth,
 }) => {
-  const likeButton = true;
-
-  console.log(confidence);
+  // const likeButton = true;
 
   return (
     <div
@@ -34,15 +33,16 @@ const WatchCard: React.FC<WatchCardProps> = ({
       <figure>
         <Link
           href={`/watch/${refference}`}
-          className="w-full flex items-center justify-center"
+          className="w-full flex items-center justify-center gap-4 h-64 relative"
         >
-          <img
+          <Image
             src={src}
             alt={`Image of ${refference}`}
-            className="h-64 aspect-auto"
+            className="aspect-auto object-contain relative w-auto max-h-64"
+            fill={true}
           />
         </Link>
-        {likeButton && <LikeButton />}
+        {/* {likeButton && <LikeButton />} */}
       </figure>
       <div className="card-body">
         <h2 className="card-title">{refference}</h2>

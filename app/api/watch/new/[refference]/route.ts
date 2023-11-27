@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import { NextRequest, NextResponse } from "next/server";
 
 interface IParams {
   refference: string;
@@ -7,7 +7,7 @@ interface IParams {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: IParams },
+  { params }: { params: IParams }
 ) {
   try {
     const body = await request.json();
@@ -27,7 +27,7 @@ export async function POST(
     });
 
     return NextResponse.json(res);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error);
     return NextResponse.error();
   }

@@ -1,5 +1,5 @@
-import { NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import { NextResponse } from "next/server";
 
 export async function GET() {
   try {
@@ -10,7 +10,7 @@ export async function GET() {
     });
 
     return NextResponse.json(refList, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error);
     return new NextResponse("GET_REFS_ERROR", { status: 400 });
   }

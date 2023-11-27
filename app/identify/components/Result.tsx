@@ -26,22 +26,9 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  useEffect(() => {
-    if (refference !== "No watch found") {
-      setLoading(true);
-      axios
-        .get(`/api/watch/${refference}`)
-        .then((res) => {
-          setData(res.data);
-        })
-        .catch((error: any) => console.log(error))
-        .finally(() => setLoading(false));
-    }
-  }, [refference]);
+  console.log(refference);
 
-  if (loading) return <LoadingModal />;
-
-  if (!confidence) {
+  if (refference.includes("No ")) {
     return (
       <div className="card shadow-xl w-full bg-base-100">
         <div className="card-body items-center text-center">
@@ -58,6 +45,21 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
       </div>
     );
   }
+
+  useEffect(() => {
+    if (!refference.includes("No ")) {
+      setLoading(true);
+      axios
+        .get(`/api/watch/${refference}`)
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch((error: unknown) => console.log(error))
+        .finally(() => setLoading(false));
+    }
+  }, [refference]);
+
+  if (loading) return <LoadingModal />;
 
   return (
     <WatchCard

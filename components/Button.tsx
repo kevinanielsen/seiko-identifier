@@ -24,7 +24,6 @@ const Button: React.FC<ButtonProps> = ({
   style,
   icon: Icon,
   aria,
-  hover,
 }) => {
   return (
     <button
@@ -39,7 +38,7 @@ const Button: React.FC<ButtonProps> = ({
       `,
         secondary && "btn-neutral",
         fullWidth && "w-full",
-        style && style,
+        style && style
       )}
     >
       {text}

@@ -1,38 +1,29 @@
 "use client";
 
-import fetcher from "@/app/util/fetcher";
-import useSWR from "swr";
-import { Watch } from "@prisma/client";
+import { Dispatch, SetStateAction } from "react";
 
 interface CollectionFormProps {
-  recognizableOnly: boolean;
-  setRecognizableOnly: any;
-  setPage: any;
-  setCount: any;
+  setRecognizableOnly: Dispatch<SetStateAction<boolean>>;
+  setPage: Dispatch<SetStateAction<number>>;
+  setCount: Dispatch<SetStateAction<number>>;
+  count: number;
+  resultCount?: number;
 }
 
 const CollectionForm: React.FC<CollectionFormProps> = ({
-  recognizableOnly,
   setRecognizableOnly,
   setPage,
   setCount,
+  count,
+  resultCount,
 }) => {
-  const { data, error, isLoading } = useSWR<Watch[]>(
-    `/api/watch/all?recognizable=${String(recognizableOnly)}`,
-    fetcher,
-  );
-
   return (
     <>
       <h2 className="text-4xl font-bold">Collection</h2>
       <div className="w-full flex justify-center items-center">
         <div className="flex align-center max-w-7xl w-full justify-between mt-4">
           <p className="flex justify-center items-center font-bold text-xl">
-            {isLoading && (
-              <span className="loading loading-spinner loading-lg text-primary" />
-            )}
-            {error && "Error loading result count"}
-            {data && data.length} results
+            {resultCount} results
           </p>
           <div className="flex flex-row justify-center items-center gap-4">
             <div className="form-control">
@@ -41,10 +32,10 @@ const CollectionForm: React.FC<CollectionFormProps> = ({
                 <input
                   type="checkbox"
                   className="checkbox checkbox-lg"
-                  checked={recognizableOnly}
+                  defaultChecked
                   onChange={(e) => {
                     setRecognizableOnly(e.target.checked);
-                    setPage(1);
+                    e.target.checked && setPage(1);
                   }}
                 />
               </label>
@@ -53,6 +44,7 @@ const CollectionForm: React.FC<CollectionFormProps> = ({
               <select
                 className="select select-bordered"
                 onChange={(e) => setCount(Number(e.target.value))}
+                value={count}
               >
                 <option disabled>Items per page</option>
                 <option>25</option>
@@ -67,7 +59,6 @@ const CollectionForm: React.FC<CollectionFormProps> = ({
       <div className="divider"></div>
     </>
   );
-  return null;
 };
 
 export default CollectionForm;

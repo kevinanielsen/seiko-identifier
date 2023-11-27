@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(request: NextRequest) {
   const count = Number(request.nextUrl.searchParams.get("count"));
@@ -40,10 +40,10 @@ export async function GET(request: NextRequest) {
 
     const watchList = await prisma.watch.findMany();
     return NextResponse.json(watchList);
-  } catch (error: any) {
+  } catch (error: unknown) {
     return new NextResponse("GET_MANY_WATCH_ERROR", {
       status: 500,
-      statusText: error,
+      statusText: String(error),
     });
   }
 }

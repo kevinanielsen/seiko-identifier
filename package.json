@@ -32,7 +32,6 @@
     "clsx": "^1.2.1",
     "dotenv": "^16.3.1",
     "husky": "^8.0.3",
-    "jimp": "^0.22.10",
     "next": "14.0.3",
     "next-auth": "^4.24.5",
     "postcss": "^8.4.31",
@@ -44,6 +43,7 @@
     "react-icons": "^4.12.0",
     "react-spinners": "^0.13.8",
     "react-webcam": "^7.2.0",
+    "seedrandom": "^3.0.5",
     "sharp": "^0.32.6",
     "swr": "^2.2.4",
     "tailwindcss": "^3.3.5",
@@ -53,10 +53,14 @@
   "devDependencies": {
     "@commitlint/cli": "^17.8.1",
     "@commitlint/config-conventional": "^17.8.1",
+    "@next/eslint-plugin-next": "^14.0.3",
     "@types/bcryptjs": "^2.4.6",
+    "@typescript-eslint/eslint-plugin": "^6.13.0",
+    "@typescript-eslint/parser": "^6.13.0",
     "cross-env": "^7.0.3",
     "daisyui": "^3.9.4",
     "eslint": "8.52.0",
-    "eslint-config-next": "13.5.6"
+    "eslint-config-next": "13.5.6",
+    "eslint-plugin-react": "^7.33.2"
   }
 }
