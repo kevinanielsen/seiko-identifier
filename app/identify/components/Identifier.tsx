@@ -8,23 +8,12 @@ import Webcam from "react-webcam";
 import LoadingModal from "../../../components/LoadingModal";
 import Result from "./Result";
 
-// TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
-
-const modelURL = "https://teachablemachine.withgoogle.com/models/d1qL04bWG/";
-let classifier: any;
-
 interface IResult {
   label: string;
-  confidence: number | null;
+  probability: string;
 }
 
-let ml5: any;
-
 const Identifier: React.FC = () => {
-  useEffect(() => {
-    ml5 = require("ml5");
-  }, []);
-
   const webcamRef = useRef<Webcam>(null);
 
   const [refList, setRefList] = useState<{ ref: string }[]>();
@@ -44,18 +33,6 @@ const Identifier: React.FC = () => {
   };
 
   useEffect(() => {
-    (async () => {
-      setLoading(true);
-      classifier = await ml5.imageClassifier(modelURL + "model.json");
-      setLoading(false);
-    })();
-  }, []);
-
-  useEffect(() => {
-    classifyVideo();
-  }, [imgSrc]);
-
-  useEffect(() => {
     axios
       .get("/api/watch/refs")
       .then((res) => {
@@ -64,38 +41,28 @@ const Identifier: React.FC = () => {
       .catch((error: any) => console.log(error));
   }, []);
 
-  const classifyVideo = () => {
-    if (imgSrc) {
-      try {
-        classifier.classify(imgSrc, gotResults);
-      } catch (error: any) {
-        setResult(error.message);
-        loading && setLoading(false);
-      }
+  const gotResults = async (result: { label: string; probability: string }) => {
+    if (result) {
+      const label = result.label; //Predicted label with highest confidence
+      const probability = result.probability;
+      setResult({ label: label, probability: probability });
+      fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
+        console.log(err)
+      );
     }
   };
 
-  const gotResults = async (
-    error: any,
-    results: { label: string; confidence: number }[]
-  ) => {
-    if (results) {
-      const label = results[0].label; //Predicted label with highest confidence
-      const confidence = results[0].confidence
-        .toString()
-        .split("")
-        .splice(2, 2)
-        .join("");
-
-      if (refList?.find((val) => val.ref == label)) {
-        setResult({ label: label, confidence: Number(confidence) });
-        fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
-          console.log(err)
-        );
-      } else {
-        setResult({ label: "No watch found", confidence: null });
-      }
-    }
+  const classifyVideo = (img: string) => {
+    setLoading(true);
+    axios
+      .post("/api/identify", {
+        image: img,
+      })
+      .then((res) => {
+        gotResults(res.data);
+      })
+      .catch((err) => console.log(err))
+      .finally(() => setLoading(false));
   };
 
   const capture = async () => {
@@ -104,7 +71,7 @@ const Identifier: React.FC = () => {
       let image = new Image();
       if (imageSrc) {
         image.src = imageSrc;
-        setImgSrc(image);
+        classifyVideo(imageSrc);
         setEnabled(false);
       }
     }
@@ -175,7 +142,7 @@ const Identifier: React.FC = () => {
           </div>
 
           {result && (
-            <Result refference={result.label} confidence={result.confidence} />
+            <Result refference={result.label} confidence={result.probability} />
           )}
         </div>
       </div>

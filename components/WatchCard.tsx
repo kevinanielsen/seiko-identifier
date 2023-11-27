@@ -2,7 +2,6 @@ import clsx from "clsx";
 import Link from "next/link";
 import React from "react";
 import LikeButton from "./WatchComponents/LikeButton";
-import { useSession } from "next-auth/react";
 
 interface WatchCardProps {
   refference: string;
@@ -22,16 +21,14 @@ const WatchCard: React.FC<WatchCardProps> = ({
 }) => {
   const likeButton = true;
 
-  const session = useSession();
-
-  console.log(session);
+  console.log(confidence);
 
   return (
     <div
       className={clsx(
         "card shadow-xl flex-shrink w-64 bg-base-100",
         fullWidth === true && "w-full",
-        fullWidth === false && "max-w-96",
+        fullWidth === false && "max-w-96"
       )}
     >
       <figure>
@@ -61,13 +58,13 @@ const WatchCard: React.FC<WatchCardProps> = ({
                 Confidence
               </label>
               <progress
-                value={confidence - 60}
-                max="40"
+                value={(confidence - 0.4) * 100}
+                max="60"
                 className={clsx(
                   "progress w-full",
-                  confidence <= 80 && "progress-error",
-                  confidence <= 92 && "progress-warning",
-                  confidence > 92 && "progress-success",
+                  confidence * 100 <= 80 && "progress-error",
+                  confidence * 100 <= 92 && "progress-warning",
+                  confidence * 100 > 92 && "progress-success"
                 )}
               />
             </>
