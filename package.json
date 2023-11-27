@@ -46,7 +46,7 @@
     "sharp": "^0.32.6",
     "swr": "^2.2.4",
     "tailwindcss": "^3.3.5",
-    "tfjs-image-node": "^1.0.8",
+    "tfjs-image-node": "^1.0.9",
     "typescript": "^5.3.2"
   },
   "devDependencies": {
