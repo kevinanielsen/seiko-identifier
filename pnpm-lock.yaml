@@ -101,7 +101,7 @@ devDependencies:
     specifier: ^17.6.7
     version: 17.8.1
   '@types/bcryptjs':
-    specifier: ^2.4.2
+    specifier: ^2.4.6
     version: 2.4.6
   cross-env:
     specifier: ^7.0.3
