@@ -1,3 +1,4 @@
+import * as metadata from "@/public/model/metadata.json";
 import { v2 as cloudinary } from "cloudinary";
 import { NextRequest, NextResponse } from "next/server";
 import classifyImage from "tfjs-image-node";
@@ -38,13 +39,14 @@ export async function POST(req: NextRequest) {
     const result: IResult[] | Error = await classifyImage(
       modelURL,
       img.url,
-      "node"
+      "node",
+      metadata
     );
 
     if (result instanceof Array) {
       return NextResponse.json(result[0], { status: 200 });
     } else {
-      return NextResponse.json({}, { status: 500 });
+      return NextResponse.json(result, { status: 500 });
     }
   } catch (error) {
     return NextResponse.json(error, { status: 500 });

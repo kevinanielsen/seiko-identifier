@@ -26,7 +26,18 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
   });
   const [loading, setLoading] = useState<boolean>(false);
 
-  console.log(refference);
+  useEffect(() => {
+    if (!refference.includes("No ")) {
+      setLoading(true);
+      axios
+        .get(`/api/watch/${refference}`)
+        .then((res) => {
+          setData(res.data);
+        })
+        .catch((error: unknown) => console.log(error))
+        .finally(() => setLoading(false));
+    }
+  }, [refference]);
 
   if (refference.includes("No ")) {
     return (
@@ -45,19 +56,6 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
       </div>
     );
   }
-
-  useEffect(() => {
-    if (!refference.includes("No ")) {
-      setLoading(true);
-      axios
-        .get(`/api/watch/${refference}`)
-        .then((res) => {
-          setData(res.data);
-        })
-        .catch((error: unknown) => console.log(error))
-        .finally(() => setLoading(false));
-    }
-  }, [refference]);
 
   if (loading) return <LoadingModal />;
 
