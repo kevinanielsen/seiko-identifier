@@ -6,8 +6,8 @@
   "private": true,
   "homepage": "https://github.com/kevinanielsen/seiko-identifier",
   "engines": {
-    "node": "18.x",
-    "npm": "9.x"
+    "node": "20.x",
+    "pnpm": "^8.0"
   },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS='--inspect' next dev",
