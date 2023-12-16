@@ -12,6 +12,7 @@ import Camera from "./camera";
 // TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
 
 const modelURL = "https://teachablemachine.withgoogle.com/models/d1qL04bWG/";
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let classifier: any;
 
 interface IResult {
@@ -19,6 +20,7 @@ interface IResult {
   confidence: number | null;
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 let ml5: any;
 
 const Identifier: React.FC = () => {
@@ -56,13 +58,15 @@ const Identifier: React.FC = () => {
         classifier
           .classify(
             imgSrc,
-            (err: any, results: { label: string; confidence: number }[]) => {
+            (
+              err: unknown,
+              results: { label: string; confidence: number }[]
+            ) => {
               gotResults(err, results).then((res) => setResult(res));
             }
           )
           .finally(() => toast.dismiss());
-      } catch (error: any) {
-        setResult(error.message);
+      } catch (error: unknown) {
         toast.dismiss();
       }
     }

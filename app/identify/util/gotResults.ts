@@ -1,5 +1,5 @@
 const gotResults = async (
-  error: Error,
+  error: unknown,
   results: { label: string; confidence: number }[]
 ) => {
   if (error) {
