@@ -27,7 +27,11 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
   const [loading, setLoading] = useState<boolean>(false);
 
   useEffect(() => {
-    if (refference !== "No watch found") {
+    if (
+      refference !== "No watch found" &&
+      refference !== "No watch fou..." &&
+      confidence !== null
+    ) {
       setLoading(true);
       axios
         .get(`/api/watch/${refference}`)
@@ -41,7 +45,11 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
 
   if (loading) return <LoadingModal />;
 
-  if (!confidence) {
+  if (
+    refference === "No watch found" ||
+    refference === "No watch fou..." ||
+    confidence === null
+  ) {
     return (
       <div className="card shadow-xl w-full bg-base-100">
         <div className="card-body items-center text-center">
