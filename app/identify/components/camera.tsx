@@ -1,4 +1,5 @@
 import Button from "@/components/Button";
+import NextImage from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
 import { BiTrash } from "react-icons/bi";
@@ -45,7 +46,7 @@ const Camera: React.FC<TCameraProps> = ({
     <>
       <div className="w-full flex flex-col justify-center items-center shadow-md aspect-video overflow-hidden">
         {!enabled && imgSrc?.src && (
-          <img src={imgSrc.src} alt="screenshot" className="w-full" />
+          <NextImage src={imgSrc.src} alt="screenshot" className="w-full" />
         )}
         {enabled && (
           <Webcam

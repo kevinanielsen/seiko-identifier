@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 
@@ -31,7 +32,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
           href={`/watch/${refference}`}
           className="w-full flex items-center justify-center"
         >
-          <img
+          <Image
             src={src}
             alt={`Image of ${refference}`}
             className="h-64 aspect-auto"
