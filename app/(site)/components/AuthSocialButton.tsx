@@ -17,7 +17,7 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
   disabled,
   type,
   onClick,
-}) => {
+}: AuthSocialButtonProps) => {
   return (
     <button
       type={type}
@@ -26,7 +26,7 @@ const AuthSocialButton: React.FC<AuthSocialButtonProps> = ({
       className={clsx(
         "btn btn-outline",
         secondary && "btn-neutral",
-        disabled && "disabled",
+        disabled && "disabled"
       )}
     >
       <Icon size={20} />
