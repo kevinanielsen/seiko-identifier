@@ -37,6 +37,7 @@ const Collection: React.FC = () => {
         setCount={setCount}
         setRecognizableOnly={setRecognizableOnly}
         setPage={setPage}
+        setMaxPages={setMaxPages}
       />
       {data && (
         <div className="flex flex-wrap flex-row gap-4 justify-between">
