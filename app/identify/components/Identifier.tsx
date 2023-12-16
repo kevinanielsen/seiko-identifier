@@ -1,12 +1,13 @@
 "use client";
 
 import Button from "@/components/Button";
-import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
-import { BiTrash } from "react-icons/bi";
+import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import LoadingModal from "../../../components/LoadingModal";
+import gotResults from "../util/gotResults";
 import Result from "./Result";
+import Camera from "./camera";
 
 // TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
 
@@ -27,21 +28,15 @@ const Identifier: React.FC = () => {
 
   const webcamRef = useRef<Webcam>(null);
 
-  const [refList, setRefList] = useState<{ ref: string }[]>();
-
   const [loading, setLoading] = useState(false);
 
   const [result, setResult] = useState<IResult | null>();
   const [imgSrc, setImgSrc] = useState<HTMLImageElement | null>();
 
   const [enabled, setEnabled] = useState(true);
-  const [camDirection, setCamDirection] = useState("user");
-
-  const videoConstraints = {
-    width: 1280,
-    height: 720,
-    facingMode: camDirection,
-  };
+  const [camDirection, setCamDirection] = useState<"user" | "environment">(
+    "user"
+  );
 
   useEffect(() => {
     (async () => {
@@ -55,57 +50,20 @@ const Identifier: React.FC = () => {
     classifyVideo();
   }, [imgSrc]);
 
-  useEffect(() => {
-    axios
-      .get("/api/watch/refs")
-      .then((res) => {
-        setRefList(res.data);
-      })
-      .catch((error: any) => console.log(error));
-  }, []);
-
   const classifyVideo = () => {
     if (imgSrc) {
       try {
-        classifier.classify(imgSrc, gotResults);
+        classifier
+          .classify(
+            imgSrc,
+            (err: any, results: { label: string; confidence: number }[]) => {
+              gotResults(err, results).then((res) => setResult(res));
+            }
+          )
+          .finally(() => toast.dismiss());
       } catch (error: any) {
         setResult(error.message);
-        loading && setLoading(false);
-      }
-    }
-  };
-
-  const gotResults = async (
-    error: any,
-    results: { label: string; confidence: number }[]
-  ) => {
-    if (results) {
-      const label = results[0].label; //Predicted label with highest confidence
-      const confidence = results[0].confidence
-        .toString()
-        .split("")
-        .splice(2, 2)
-        .join("");
-
-      if (refList?.find((val) => val.ref == label)) {
-        setResult({ label: label, confidence: Number(confidence) });
-        fetch(`/api/watch/${label}/updateRecognizable`).catch((err) =>
-          console.log(err)
-        );
-      } else {
-        setResult({ label: "No watch found", confidence: null });
-      }
-    }
-  };
-
-  const capture = async () => {
-    if (webcamRef.current?.getScreenshot) {
-      const imageSrc = webcamRef.current.getScreenshot();
-      let image = new Image();
-      if (imageSrc) {
-        image.src = imageSrc;
-        setImgSrc(image);
-        setEnabled(false);
+        toast.dismiss();
       }
     }
   };
@@ -135,44 +93,14 @@ const Identifier: React.FC = () => {
             />
           </div>
 
-          <div className="w-full flex justify-center items-center shadow-md aspect-video overflow-hidden">
-            {!enabled && imgSrc?.src && (
-              <img src={imgSrc.src} alt="screenshot" className="w-full" />
-            )}
-            {enabled && (
-              <Webcam
-                aria-label="Camera feed"
-                ref={webcamRef}
-                videoConstraints={videoConstraints}
-                screenshotFormat="image/jpeg"
-              />
-            )}
-            {!enabled && !imgSrc?.src && (
-              <div className="bg-gray-100 w-full h-full flex items-center justify-center text-xl font-bold">
-                Camera Disabled
-              </div>
-            )}
-          </div>
-          <div className="flex justify-center items-center w-full gap-4">
-            <Button
-              text="Capture image"
-              fullWidth
-              secondary
-              disabled={!enabled}
-              onClick={capture}
-              hover
-            />
-            <Button
-              icon={BiTrash}
-              disabled={!imgSrc?.src || enabled}
-              onClick={() => {
-                setImgSrc(null);
-                setEnabled(true);
-              }}
-              aria="Clear image"
-              hover
-            />
-          </div>
+          <Camera
+            webcamRef={webcamRef}
+            imgSrc={imgSrc}
+            camDirection={camDirection}
+            enabled={enabled}
+            setEnabled={setEnabled}
+            setImgSrc={setImgSrc}
+          />
 
           {result && (
             <Result refference={result.label} confidence={result.confidence} />
