@@ -9,7 +9,7 @@ const getRefs = async () => {
     });
 
     return refList;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return error;
   }
 };
