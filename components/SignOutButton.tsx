@@ -12,7 +12,7 @@ interface SignOutButtonProps {
 const SignOutButton: React.FC<SignOutButtonProps> = ({
   children,
   dropdown,
-}) => {
+}: SignOutButtonProps) => {
   const logOut = () => {
     signOut({ callbackUrl: "/" });
     toast.success("Successfully signed out");

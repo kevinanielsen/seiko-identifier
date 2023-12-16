@@ -9,7 +9,7 @@ const getWatch = async (ref: string) => {
     });
 
     return watch;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return null;
   }
 };

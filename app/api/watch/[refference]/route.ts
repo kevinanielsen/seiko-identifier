@@ -7,7 +7,7 @@ interface IParams {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: IParams },
+  { params }: { params: IParams }
 ) {
   const ref = params.refference;
 
@@ -26,7 +26,7 @@ export async function GET(
     }
 
     return NextResponse.json(watch);
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error, "ERROR_MESSAGES_SEEN");
     return new NextResponse("Internal Error", { status: 500 });
   }

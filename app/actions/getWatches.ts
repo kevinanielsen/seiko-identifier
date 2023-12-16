@@ -8,7 +8,7 @@ const getWatches = async (count: number, page: number) => {
     });
 
     return watchList;
-  } catch (error: any) {
+  } catch (error: unknown) {
     return error;
   }
 };

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/app/libs/prismadb";
+import { NextRequest, NextResponse } from "next/server";
 
 interface IParams {
   refference: string;
@@ -7,7 +7,7 @@ interface IParams {
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: IParams },
+  { params }: { params: IParams }
 ) {
   try {
     if (!params.refference) {
@@ -21,7 +21,7 @@ export async function GET(
           ref: params.refference,
         },
       });
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error(error);
       return NextResponse.error();
     }
@@ -38,7 +38,7 @@ export async function GET(
       },
     });
     return NextResponse.json(res, { status: 200 });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.log(error);
     return new NextResponse("WATCH_ERROR_UPDATE_RECOGNIZABLE", { status: 400 });
   }

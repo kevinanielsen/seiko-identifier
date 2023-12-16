@@ -1,14 +1,15 @@
 "use client";
 
 import fetcher from "@/app/util/fetcher";
-import useSWR from "swr";
 import { Watch } from "@prisma/client";
+import useSWR from "swr";
 
 interface CollectionFormProps {
   recognizableOnly: boolean;
-  setRecognizableOnly: any;
-  setPage: any;
-  setCount: any;
+  setRecognizableOnly: React.Dispatch<React.SetStateAction<boolean>>;
+  setPage: React.Dispatch<React.SetStateAction<number>>;
+  setCount: React.Dispatch<React.SetStateAction<number>>;
+  setMaxPages: React.Dispatch<React.SetStateAction<number | undefined>>;
 }
 
 const CollectionForm: React.FC<CollectionFormProps> = ({
@@ -16,10 +17,10 @@ const CollectionForm: React.FC<CollectionFormProps> = ({
   setRecognizableOnly,
   setPage,
   setCount,
-}) => {
+}: CollectionFormProps) => {
   const { data, error, isLoading } = useSWR<Watch[]>(
     `/api/watch/all?recognizable=${String(recognizableOnly)}`,
-    fetcher,
+    fetcher
   );
 
   return (
@@ -67,7 +68,6 @@ const CollectionForm: React.FC<CollectionFormProps> = ({
       <div className="divider"></div>
     </>
   );
-  return null;
 };
 
 export default CollectionForm;
