@@ -1,9 +1,9 @@
 "use client";
 
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import { useEffect } from "react";
-import { toast } from "react-hot-toast";
+// import axios from "axios";
+// import { useSession } from "next-auth/react";
+// import { useEffect } from "react";
+// import { toast } from "react-hot-toast";
 import { FiHeart } from "react-icons/fi";
 
 const LikeButton: React.FC = () => {

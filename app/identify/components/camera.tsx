@@ -32,7 +32,7 @@ const Camera: React.FC<TCameraProps> = ({
   const capture = async () => {
     if (webcamRef.current?.getScreenshot) {
       const imageSrc = webcamRef.current.getScreenshot();
-      let image = new Image();
+      const image = new Image();
       if (imageSrc) {
         image.src = imageSrc;
         setImgSrc(image);

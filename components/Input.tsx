@@ -23,7 +23,7 @@ const Input: React.FC<InputProps> = ({
   errors,
   required,
   pattern,
-}) => {
+}: InputProps) => {
   return (
     <div className="flex flex-col w-full">
       <label htmlFor={id} className="label">
@@ -41,7 +41,7 @@ const Input: React.FC<InputProps> = ({
           `
         input input-bordered
       `,
-          errors[id] && "input-error",
+          errors[id] && "input-error"
         )}
       />
     </div>

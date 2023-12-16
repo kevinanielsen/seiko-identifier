@@ -38,7 +38,7 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
         .then((res) => {
           setData(res.data);
         })
-        .catch((error: any) => console.log(error))
+        .catch((error: unknown) => console.log(error))
         .finally(() => setLoading(false));
     }
   }, [refference]);
