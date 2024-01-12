@@ -4,7 +4,7 @@ import Link from "next/link";
 import React from "react";
 
 interface WatchCardProps {
-  refference: string;
+  reference: string;
   collection: string;
   src: string;
   confidence?: number | false;
@@ -13,7 +13,7 @@ interface WatchCardProps {
 }
 
 const WatchCard: React.FC<WatchCardProps> = ({
-  refference,
+  reference: reference,
   collection,
   src,
   confidence,
@@ -29,18 +29,18 @@ const WatchCard: React.FC<WatchCardProps> = ({
     >
       <figure>
         <Link
-          href={`/watch/${refference}`}
+          href={`/watch/${reference}`}
           className="w-full flex items-center justify-center"
         >
           <Image
             src={src}
-            alt={`Image of ${refference}`}
+            alt={`Image of ${reference}`}
             className="h-64 aspect-auto"
           />
         </Link>
       </figure>
       <div className="card-body">
-        <h2 className="card-title">{refference}</h2>
+        <h2 className="card-title">{reference}</h2>
         <div className="flex justify-center flex-col shrink-0">
           <p className="">
             <b>Collection: </b>Seiko {collection}

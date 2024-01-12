@@ -13,11 +13,14 @@ interface IData {
 }
 
 interface ResultProps {
-  refference: string;
+  reference: string;
   confidence: number | null;
 }
 
-const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
+const Result: React.FC<ResultProps> = ({
+  reference: reference,
+  confidence,
+}) => {
   const [data, setData] = useState<IData>({
     id: "",
     ref: "",
@@ -28,26 +31,26 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
 
   useEffect(() => {
     if (
-      refference !== "No watch found" &&
-      refference !== "No watch fou..." &&
+      reference !== "No watch found" &&
+      reference !== "No watch fou..." &&
       confidence !== null
     ) {
       setLoading(true);
       axios
-        .get(`/api/watch/${refference}`)
+        .get(`/api/watch/${reference}`)
         .then((res) => {
           setData(res.data);
         })
         .catch((error: unknown) => console.log(error))
         .finally(() => setLoading(false));
     }
-  }, [refference]);
+  }, [reference]);
 
   if (loading) return <LoadingModal />;
 
   if (
-    refference === "No watch found" ||
-    refference === "No watch fou..." ||
+    reference === "No watch found" ||
+    reference === "No watch fou..." ||
     confidence === null
   ) {
     return (
@@ -70,7 +73,7 @@ const Result: React.FC<ResultProps> = ({ refference, confidence }) => {
   return (
     <WatchCard
       collection={data.collection}
-      refference={data.ref}
+      reference={data.ref}
       confidence={confidence}
       src={data.src}
       fullWidth

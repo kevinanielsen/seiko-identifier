@@ -107,7 +107,7 @@ const Identifier: React.FC = () => {
           />
 
           {result && (
-            <Result refference={result.label} confidence={result.confidence} />
+            <Result reference={result.label} confidence={result.confidence} />
           )}
         </div>
       </div>

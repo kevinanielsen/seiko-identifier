@@ -44,7 +44,7 @@ const Collection: React.FC = () => {
           {data.map((watch: Watch) => (
             <WatchCard
               collection={watch.collection}
-              refference={watch.ref}
+              reference={watch.ref}
               src={watch.src}
               fullWidth={false}
               key={watch.ref}
