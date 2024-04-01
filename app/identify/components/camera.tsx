@@ -1,5 +1,4 @@
 import Button from "@/components/Button";
-import NextImage from "next/image";
 import React from "react";
 import toast from "react-hot-toast";
 import { BiTrash } from "react-icons/bi";
@@ -7,22 +6,24 @@ import Webcam from "react-webcam";
 
 type TCameraProps = {
   webcamRef: React.RefObject<Webcam>;
-  imgSrc: HTMLImageElement | null | undefined;
   camDirection: "user" | "environment";
   enabled: boolean;
-  setImgSrc: React.Dispatch<
-    React.SetStateAction<HTMLImageElement | null | undefined>
-  >;
   setEnabled: React.Dispatch<React.SetStateAction<boolean>>;
+  handleImageChange: (imageSrc: string) => Promise<void>;
+  htmlImage: HTMLImageElement | undefined;
+  setHtmlImage: React.Dispatch<
+    React.SetStateAction<HTMLImageElement | undefined>
+  >;
 };
 
 const Camera: React.FC<TCameraProps> = ({
   webcamRef,
-  imgSrc,
   camDirection,
   enabled,
   setEnabled,
-  setImgSrc,
+  handleImageChange,
+  htmlImage,
+  setHtmlImage,
 }) => {
   const videoConstraints = {
     width: 1280,
@@ -32,22 +33,16 @@ const Camera: React.FC<TCameraProps> = ({
 
   const capture = async () => {
     if (webcamRef.current?.getScreenshot) {
+      toast.loading("Identifying watch...");
+      setEnabled(false);
       const imageSrc = webcamRef.current.getScreenshot();
-      const image = new Image();
-      if (imageSrc) {
-        image.src = imageSrc;
-        setImgSrc(image);
-        setEnabled(false);
-      }
+      await handleImageChange(imageSrc!);
     }
   };
 
   return (
     <>
       <div className="w-full flex flex-col justify-center items-center shadow-md aspect-video overflow-hidden">
-        {!enabled && imgSrc?.src && (
-          <NextImage src={imgSrc.src} alt="screenshot" className="w-full" />
-        )}
         {enabled && (
           <Webcam
             aria-label="Camera feed"
@@ -56,9 +51,15 @@ const Camera: React.FC<TCameraProps> = ({
             screenshotFormat="image/jpeg"
           />
         )}
-        {!enabled && !imgSrc?.src && (
+        {!enabled && !htmlImage && (
           <div className="bg-gray-100 w-full h-full flex items-center justify-center text-xl font-bold">
             Camera Disabled
+          </div>
+        )}
+        {!enabled && htmlImage && (
+          <div className="bg-gray-100 w-full h-full flex items-center justify-center text-xl font-bold">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={htmlImage.src} alt="image" />
           </div>
         )}
         <div />
@@ -69,19 +70,16 @@ const Camera: React.FC<TCameraProps> = ({
           fullWidth
           secondary
           disabled={!enabled}
-          onClick={() => {
-            capture();
-            toast.loading("Identifying watch...");
-          }}
+          onClick={capture}
           hover
         />
 
         <Button
           icon={BiTrash}
-          disabled={!imgSrc?.src || enabled}
+          disabled={enabled}
           onClick={() => {
-            setImgSrc(null);
             setEnabled(true);
+            setHtmlImage(undefined);
           }}
           aria="Clear image"
           hover

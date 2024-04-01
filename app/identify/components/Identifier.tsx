@@ -1,76 +1,90 @@
 "use client";
 
 import Button from "@/components/Button";
+import * as metadata from "@/model/metadata.json";
+import * as tf from "@tensorflow/tfjs";
 import React, { useEffect, useRef, useState } from "react";
 import toast from "react-hot-toast";
 import Webcam from "react-webcam";
 import LoadingModal from "../../../components/LoadingModal";
-import gotResults from "../util/gotResults";
+import createHTMLImageElement from "../util/createHTMLimage";
 import Result from "./Result";
 import Camera from "./camera";
 
 // TM Model "https://teachablemachine.withgoogle.com/models/d1qL04bWG/"
 
-const modelURL = "https://teachablemachine.withgoogle.com/models/d1qL04bWG/";
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let classifier: any;
-
-interface IResult {
-  label: string;
-  confidence: number | null;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let ml5: any;
-
 const Identifier: React.FC = () => {
-  useEffect(() => {
-    ml5 = require("ml5");
-  }, []);
-
   const webcamRef = useRef<Webcam>(null);
 
-  const [loading, setLoading] = useState(false);
+  const [model, setModel] = useState<tf.LayersModel>();
+  const [classLabels, setClassLabels] = useState<string[]>();
 
-  const [result, setResult] = useState<IResult | null>();
-  const [imgSrc, setImgSrc] = useState<HTMLImageElement | null>();
+  const [loading, setLoading] = useState(false);
+  const [confidence, setConfidence] = useState<number>();
+  const [predictedClass, setPredictedClass] = useState<string>();
+
+  const [htmlImage, setHtmlImage] = useState<HTMLImageElement>();
 
   const [enabled, setEnabled] = useState(true);
   const [camDirection, setCamDirection] = useState<"user" | "environment">(
     "user"
   );
 
-  useEffect(() => {
-    (async () => {
+  const handleImageChange = async (imageSrc: string) => {
+    if (!imageSrc) {
+      setConfidence(undefined);
+      setPredictedClass(undefined);
+    }
+
+    if (imageSrc) {
       setLoading(true);
-      classifier = await ml5.imageClassifier(modelURL + "model.json");
+      const image = await createHTMLImageElement(imageSrc);
+      setHtmlImage(image);
+
+      // tf.tidy for automatic memory cleanup
+      const [predictedClass, confidence] = tf.tidy(() => {
+        const tensorImg = tf.browser
+          .fromPixels(image)
+          .resizeNearestNeighbor([224, 224])
+          .toFloat()
+          .expandDims();
+
+        const result = model!.predict(tensorImg) as tf.Tensor;
+
+        const predictions = result.dataSync();
+
+        predictions.forEach((p, i) => {
+          console.log(classLabels![i], p);
+        });
+        const predicted_index = result.as1D().argMax().dataSync()[0];
+
+        const predictedClass = classLabels![predicted_index];
+        const confidence = Math.round(predictions[predicted_index] * 100);
+
+        return [predictedClass, confidence];
+      });
+
+      setPredictedClass(predictedClass);
+      setConfidence(confidence);
       setLoading(false);
-    })();
-  }, []);
-
-  useEffect(() => {
-    classifyVideo();
-  }, [imgSrc]);
-
-  const classifyVideo = () => {
-    if (imgSrc) {
-      try {
-        classifier
-          .classify(
-            imgSrc,
-            (
-              err: unknown,
-              results: { label: string; confidence: number }[]
-            ) => {
-              gotResults(err, results).then((res) => setResult(res));
-            }
-          )
-          .finally(() => toast.dismiss());
-      } catch (error: unknown) {
-        toast.dismiss();
-      }
+      toast.dismiss();
     }
   };
+
+  useEffect(() => {
+    const loadModel = async () => {
+      const model = await tf.loadLayersModel(
+        "https://teachablemachine.withgoogle.com/models/d1qL04bWG/model.json"
+      );
+      setModel(model);
+    };
+    const getLabels = async () => {
+      setClassLabels(metadata.labels);
+    };
+
+    loadModel();
+    getLabels();
+  }, []);
 
   return (
     <>
@@ -99,15 +113,16 @@ const Identifier: React.FC = () => {
 
           <Camera
             webcamRef={webcamRef}
-            imgSrc={imgSrc}
             camDirection={camDirection}
             enabled={enabled}
             setEnabled={setEnabled}
-            setImgSrc={setImgSrc}
+            handleImageChange={handleImageChange}
+            htmlImage={htmlImage}
+            setHtmlImage={setHtmlImage}
           />
 
-          {result && (
-            <Result reference={result.label} confidence={result.confidence} />
+          {predictedClass && confidence && (
+            <Result reference={predictedClass} confidence={confidence} />
           )}
         </div>
       </div>
