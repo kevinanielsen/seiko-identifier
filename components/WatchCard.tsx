@@ -22,7 +22,7 @@ const WatchCard: React.FC<WatchCardProps> = ({
   return (
     <div
       className={clsx(
-        "card shadow-xl flex-shrink w-64 bg-base-100",
+        "card w-64 h-96 flex-shrink bg-base-100 shadow-xl",
         fullWidth === true && "w-full",
         fullWidth === false && "max-w-96"
       )}
@@ -30,18 +30,21 @@ const WatchCard: React.FC<WatchCardProps> = ({
       <figure>
         <Link
           href={`/watch/${reference}`}
-          className="w-full flex items-center justify-center"
+          className="flex w-full items-center justify-center"
         >
           <Image
             src={src}
             alt={`Image of ${reference}`}
-            className="h-64 aspect-auto"
+            width="0"
+            height="0"
+            sizes="100vw"
+            className="w-full h-64 object-scale-down relative"
           />
         </Link>
       </figure>
       <div className="card-body">
         <h2 className="card-title">{reference}</h2>
-        <div className="flex justify-center flex-col shrink-0">
+        <div className="flex shrink-0 flex-col justify-center">
           <p className="">
             <b>Collection: </b>Seiko {collection}
           </p>
