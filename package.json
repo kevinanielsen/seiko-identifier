@@ -25,6 +25,7 @@
     "dotenv": "^16.4.5",
     "next": "15.0.3",
     "next-auth": "^4.24.10",
+    "next-plausible": "^3.12.4",
     "postcss": "^8.4.49",
     "react": "18.3.1",
     "react-dom": "18.3.1",
