@@ -101,11 +101,11 @@ const Identifier: React.FC = () => {
             <Button
               style="flex md:hidden"
               text="Flip camera"
-              onClick={() => {
-                camDirection === "user"
-                  ? setCamDirection("environment")
-                  : setCamDirection("user");
-              }}
+              onClick={() =>
+                setCamDirection(
+                  camDirection === "user" ? "environment" : "user"
+                )
+              }
               disabled={loading}
               hover
             />

@@ -44,7 +44,7 @@ const Result: React.FC<ResultProps> = ({
         .catch((error: unknown) => console.log(error))
         .finally(() => setLoading(false));
     }
-  }, [reference]);
+  }, [reference, confidence]);
 
   if (loading) return <LoadingModal />;
 

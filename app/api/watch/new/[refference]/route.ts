@@ -1,15 +1,14 @@
 import prisma from "@/app/libs/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 
-interface IParams {
-  refference: string;
-}
+type Params = Promise<{ refference: string }>;
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: IParams }
+  { params }: { params: Params }
 ) {
   try {
+    const { refference } = await params;
     const body = await request.json();
     const { src, ref, collection, dialColor, recognizable } = body;
 
@@ -19,7 +18,7 @@ export async function POST(
     const res = await prisma.watch.create({
       data: {
         src: src,
-        ref: params.refference,
+        ref: refference,
         recognizable: recognizable ? recognizable : false,
         collection: collection,
         dialColor: dialColor && dialColor,

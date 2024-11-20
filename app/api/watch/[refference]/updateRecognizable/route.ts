@@ -1,16 +1,15 @@
 import prisma from "@/app/libs/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 
-interface IParams {
-  refference: string;
-}
+type Params = Promise<{ refference: string }>;
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: IParams }
+  { params }: { params: Params }
 ) {
   try {
-    if (!params.refference) {
+    const { refference } = await params;
+    if (!refference) {
       return new NextResponse("INVALID_WATCH_REFFERENCE", { status: 404 });
     }
 
@@ -18,7 +17,7 @@ export async function GET(
     try {
       watch = await prisma.watch.findFirst({
         where: {
-          ref: params.refference,
+          ref: refference,
         },
       });
     } catch (error: unknown) {
@@ -34,7 +33,7 @@ export async function GET(
         recognizable: true,
       },
       where: {
-        ref: params.refference,
+        ref: refference,
       },
     });
     return NextResponse.json(res, { status: 200 });

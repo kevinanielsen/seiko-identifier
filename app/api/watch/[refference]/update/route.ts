@@ -1,17 +1,17 @@
 import prisma from "@/app/libs/prismadb";
 import { NextRequest, NextResponse } from "next/server";
 
-interface IParams {
+type Params = Promise<{
   refference: string;
-}
+}>;
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: IParams }
+  { params }: { params: Params }
 ) {
   try {
     const body = await request.json();
-    const { refference } = params;
+    const { refference } = await params;
 
     if (!body) {
       return NextResponse.json("INVALID_BODY_WATCH_UPDATE", { status: 400 });

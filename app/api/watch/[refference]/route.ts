@@ -1,27 +1,22 @@
 import prisma from "@/app/libs/prismadb";
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
 
-interface IParams {
-  refference: string;
-}
+type Params = Promise<{ refference: string }>;
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: IParams }
-) {
-  const ref = params.refference;
+export async function GET(request: Request, { params }: { params: Params }) {
+  const { refference } = await params;
 
   try {
     const watch = await prisma.watch.findFirst({
       where: {
-        ref: ref,
+        ref: refference,
       },
     });
 
     if (!watch) {
       return NextResponse.json("Invalid Refference", {
         status: 400,
-        statusText: `Attempted refference lookup: ${ref}`,
+        statusText: `Attempted refference lookup: ${refference}`,
       });
     }
 

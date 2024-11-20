@@ -41,8 +41,12 @@ export async function GET(request: NextRequest) {
     const watchList = await prisma.watch.findMany();
     return NextResponse.json(watchList);
   } catch (error: unknown) {
-    return new NextResponse("GET_MANY_WATCH_ERROR", {
-      status: 500,
-    });
+    console.error("Error getting watch list", error);
+    return new NextResponse(
+      JSON.stringify({ message: "GET_MANY_WATCH_ERROR", error }),
+      {
+        status: 500,
+      }
+    );
   }
 }

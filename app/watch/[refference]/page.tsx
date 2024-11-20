@@ -1,7 +1,7 @@
 "use client";
 
 import LoadingModal from "@/components/LoadingModal";
-import Watch from "@/types/watch-type";
+import type TWatch from "@/types/watch-type";
 import axios from "axios";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
@@ -11,13 +11,13 @@ import { toast } from "react-hot-toast";
 const Watch = () => {
   const path = usePathname();
   const refference = path.split("/")[2];
-  const [data, setData] = useState<Watch | null>();
+  const [data, setData] = useState<TWatch | null>();
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
     axios
       .get(`/api${path}`)
-      .then((response: { data: Watch }) => {
+      .then((response: { data: TWatch }) => {
         setData(response.data);
       })
       .catch((error: unknown) => {
